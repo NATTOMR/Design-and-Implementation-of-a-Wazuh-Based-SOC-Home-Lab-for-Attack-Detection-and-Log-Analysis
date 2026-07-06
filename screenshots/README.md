@@ -1,4 +1,4 @@
-screenshots/
+```screenshots/
 │
 ├── 01-host-machine.png
 ├── 02-virtualbox-home.png
@@ -57,3 +57,5 @@ screenshots/
 ├── 47-final-dashboard.png
 ├── 48-project-architecture.png
 └── 49-final-alert.png
+
+```
