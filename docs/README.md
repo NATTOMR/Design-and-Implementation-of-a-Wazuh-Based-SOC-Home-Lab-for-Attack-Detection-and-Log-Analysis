@@ -11,6 +11,7 @@ This directory contains all technical documentation, installation guides, archit
 | Document | Description |
 |----------|-------------|
 | [Architecture.md](Architecture.md) | Overview of the SOC Home Lab architecture and network design. |
+| [Ubuntu-Installation.md](Ubuntu-Installation.md) | Installation and setup of Ubuntu Server 24.04 LTS. |
 | [Wazuh-Installation.md](Wazuh-Installation.md) | Step-by-step installation of the Wazuh SIEM platform. |
 | [Windows11-Agent.md](Windows11-Agent.md) | Installation and configuration of the Wazuh Agent on Windows 11. |
 | [Sysmon-Configuration.md](Sysmon-Configuration.md) | Deployment and configuration of Microsoft Sysmon. |
@@ -72,6 +73,7 @@ Project Complete
 ├── docs/
 │   ├── README.md
 │   ├── Architecture.md
+│   ├── Ubuntu-Installation.md
 │   ├── Wazuh-Installation.md
 │   ├── Windows11-Agent.md
 │   ├── Sysmon-Configuration.md
@@ -82,6 +84,7 @@ Project Complete
 ├── configs/
 ├── detection/
 ├── kali/
+├── ubuntu/
 ├── windows11/
 ├── wazuh/
 ├── screenshots/
@@ -95,12 +98,13 @@ Project Complete
 If you are reproducing this lab, follow the documents in this order:
 
 1. Architecture
-2. Wazuh Installation
-3. Windows 11 Agent
-4. Sysmon Configuration
-5. Kali Attack Simulation
-6. Detection Rules
-7. Troubleshooting
+2. Ubuntu Installation
+3. Wazuh Installation
+4. Windows 11 Agent
+5. Sysmon Configuration
+6. Kali Attack Simulation
+7. Detection Rules
+8. Troubleshooting
 
 ---
 
@@ -165,6 +169,7 @@ Contains the final academic project report.
 
 This documentation enables readers to:
 
+- Deploy an Ubuntu Server host environment
 - Deploy a Wazuh SIEM environment
 - Connect Windows endpoints
 - Configure Sysmon
