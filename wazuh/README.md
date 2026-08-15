@@ -353,17 +353,30 @@ Check the firewall configuration and verify the manager IP address in the agent 
 
 # Screenshots
 
-Capture and place the following screenshots in the `screenshots/` folder:
+The following screenshots demonstrate the successful installation and configuration of the Wazuh Server:
 
-1. Ubuntu Server installation
-2. Wazuh installation completed
-3. Dashboard login page
-4. Dashboard overview
-5. Services status (`systemctl`)
-6. Windows Agent installation
-7. Agent registered in Dashboard
-8. Active agents list
-9. Sample security alert
+### Wazuh Installation & Version
+![Wazuh Installation](../screenshots/07-wazuh-installation.png)
+
+### Wazuh Installation Complete
+![Wazuh Installation Complete](../screenshots/08-wazuh-installation-complete.png)
+
+### Wazuh Manager Status
+![Wazuh Manager Status](../screenshots/09-wazuh-manager-status.png)
+
+### Wazuh Indexer Status
+![Wazuh Indexer Status](../screenshots/10-wazuh-indexer-status.png)
+
+### Wazuh Dashboard Status
+![Wazuh Dashboard Status](../screenshots/11-wazuh-dashboard-status.png)
+
+### Wazuh Dashboard Login
+![Wazuh Dashboard Login](../screenshots/12-wazuh-dashboard-login.png)
+
+### Wazuh Dashboard Overview
+![Wazuh Dashboard Overview](../screenshots/13-wazuh-dashboard-home.png)
+
+*(Windows Agent and further screenshots will be added below once captured)*
 
 ---
 
