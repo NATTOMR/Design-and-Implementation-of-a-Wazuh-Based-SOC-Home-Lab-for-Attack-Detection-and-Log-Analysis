@@ -1,0 +1,10 @@
+<!-- Custom Wazuh Decoders for SOC Home Lab -->
+<decoder name="custom-attack-decoder">
+  <prematch>^SOC-ATTACK-LOG:</prematch>
+</decoder>
+
+<decoder name="custom-attack-decoder-child">
+  <parent>custom-attack-decoder</parent>
+  <regex offset="after_parent">src_ip=(\S+) user=(\S+) action=(\S+)</regex>
+  <order>srcip, dstuser, action</order>
+</decoder>

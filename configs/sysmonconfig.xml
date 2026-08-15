@@ -1,0 +1,71 @@
+<Sysmon schemaversion="4.90">
+  <!-- SYSMON CONFIGURATION FOR WAZUH SOC HOME LAB -->
+  <HashAlgorithms>md5,sha256,imphash</HashAlgorithms>
+  <EventFiltering>
+    <!-- Event ID 1 == Process Creation -->
+    <RuleGroup groupRelation="or">
+      <ProcessCreate onmatch="exclude">
+        <!-- Exclude noisy benign processes if needed -->
+      </ProcessCreate>
+    </RuleGroup>
+
+    <!-- Event ID 2 == File Creation Time Changed -->
+    <RuleGroup groupRelation="or">
+      <FileCreateTime onmatch="include">
+        <Image condition="begin with">C:\Users</Image>
+      </FileCreateTime>
+    </RuleGroup>
+
+    <!-- Event ID 3 == Network Connection -->
+    <RuleGroup groupRelation="or">
+      <NetworkConnect onmatch="include">
+        <DestinationPort condition="is">4444</DestinationPort>
+        <DestinationPort condition="is">80</DestinationPort>
+        <DestinationPort condition="is">443</DestinationPort>
+        <DestinationPort condition="is">3389</DestinationPort>
+        <DestinationPort condition="is">22</DestinationPort>
+        <Image condition="image">powershell.exe</Image>
+        <Image condition="image">cmd.exe</Image>
+      </NetworkConnect>
+    </RuleGroup>
+
+    <!-- Event ID 5 == Process Terminated -->
+    <RuleGroup groupRelation="or">
+      <ProcessTerminate onmatch="include" />
+    </RuleGroup>
+
+    <!-- Event ID 7 == Image Loaded -->
+    <RuleGroup groupRelation="or">
+      <ImageLoad onmatch="exclude" />
+    </RuleGroup>
+
+    <!-- Event ID 8 == CreateRemoteThread -->
+    <RuleGroup groupRelation="or">
+      <CreateRemoteThread onmatch="include" />
+    </RuleGroup>
+
+    <!-- Event ID 11 == FileCreate -->
+    <RuleGroup groupRelation="or">
+      <FileCreate onmatch="include">
+        <TargetFilename condition="contains">Downloads</TargetFilename>
+        <TargetFilename condition="contains">Temp</TargetFilename>
+        <TargetFilename condition="end with">.exe</TargetFilename>
+        <TargetFilename condition="end with">.ps1</TargetFilename>
+        <TargetFilename condition="end with">.bat</TargetFilename>
+      </FileCreate>
+    </RuleGroup>
+
+    <!-- Event ID 12,13,14 == Registry Events -->
+    <RuleGroup groupRelation="or">
+      <RegistryEvent onmatch="include">
+        <TargetObject condition="contains">CurrentVersion\Run</TargetObject>
+        <TargetObject condition="contains">CurrentVersion\RunOnce</TargetObject>
+      </RegistryEvent>
+    </RuleGroup>
+
+    <!-- Event ID 22 == DNS Query -->
+    <RuleGroup groupRelation="or">
+      <DnsQuery onmatch="include" />
+    </RuleGroup>
+  </EventFiltering>
+</Sysmon>
