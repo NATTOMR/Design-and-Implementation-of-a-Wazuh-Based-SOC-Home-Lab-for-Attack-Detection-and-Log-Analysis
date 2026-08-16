@@ -439,9 +439,9 @@ The following screenshots demonstrate the successful installation and configurat
 
 # References
 
-- Wazuh Official Documentation
-- Ubuntu Server Documentation
-- Oracle VirtualBox Documentation
+- [Wazuh Official Documentation](https://documentation.wazuh.com/current/index.html)
+- [Ubuntu Server Documentation](https://ubuntu.com/server/docs)
+- [Oracle VirtualBox Documentation](https://www.virtualbox.org/wiki/Documentation)
 
 ---
 
