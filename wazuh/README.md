@@ -380,6 +380,32 @@ The following screenshots demonstrate the successful installation and configurat
 
 ---
 
+### Windows 11 Connectivity (Ping Test)
+![Windows Ping](../screenshots/14a-windows11-ping.png)
+
+### Windows 11 Desktop
+![Windows 11 Desktop](../screenshots/14-windows11-desktop.png)
+
+### Windows Agent Deployment Configuration
+![Deploy Agent](../screenshots/15a-windows-agent-deploy.png)
+
+### Windows Agent Download
+![Windows Agent Download](../screenshots/15-windows-agent-download.png)
+
+### Windows Agent Installation
+![Windows Agent Installation](../screenshots/16-windows-agent-installation.png)
+
+### Windows Agent Service Running
+![Windows Agent Service](../screenshots/17-wazuh-agent-service.png)
+
+### Agent Registered
+![Agent Registered](../screenshots/18-agent-registered.png)
+
+### Active Windows Agent
+![Active Agent](../screenshots/19-active-agents.png)
+
+---
+
 # References
 
 - Wazuh Official Documentation
