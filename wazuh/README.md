@@ -357,24 +357,31 @@ The following screenshots demonstrate the successful installation and configurat
 
 ### Wazuh Installation & Version
 ![Wazuh Installation](../screenshots/07-wazuh-installation.png)
+*Checking the installed Wazuh version and package details via the Ubuntu terminal.*
 
 ### Wazuh Installation Complete
 ![Wazuh Installation Complete](../screenshots/08-wazuh-installation-complete.png)
+*Terminal output confirming the successful all-in-one deployment of Wazuh.*
 
 ### Wazuh Manager Status
 ![Wazuh Manager Status](../screenshots/09-wazuh-manager-status.png)
+*Verifying that the Wazuh Manager service is active and running.*
 
 ### Wazuh Indexer Status
 ![Wazuh Indexer Status](../screenshots/10-wazuh-indexer-status.png)
+*Verifying that the Wazuh Indexer service is active and running.*
 
 ### Wazuh Dashboard Status
 ![Wazuh Dashboard Status](../screenshots/11-wazuh-dashboard-status.png)
+*Verifying that the Wazuh Dashboard service is active and running.*
 
 ### Wazuh Dashboard Login
 ![Wazuh Dashboard Login](../screenshots/12-wazuh-dashboard-login.png)
+*The web interface login screen for the Wazuh Dashboard.*
 
 ### Wazuh Dashboard Overview
 ![Wazuh Dashboard Overview](../screenshots/13-wazuh-dashboard-home.png)
+*The main overview page of the Wazuh Dashboard after logging in.*
 
 *(Windows Agent and further screenshots will be added below once captured)*
 
@@ -382,39 +389,51 @@ The following screenshots demonstrate the successful installation and configurat
 
 ### Windows 11 Connectivity (Ping Test)
 ![Windows Ping](../screenshots/14a-windows11-ping.png)
+*Pinging the Wazuh server from the Windows 11 endpoint to verify network connectivity.*
 
 ### Windows 11 Desktop
 ![Windows 11 Desktop](../screenshots/14-windows11-desktop.png)
+*The clean Windows 11 desktop environment used as the victim endpoint.*
 
 ### Windows Agent Deployment Configuration
 ![Deploy Agent](../screenshots/15a-windows-agent-deploy.png)
+*Configuring the agent deployment parameters within the Wazuh Dashboard.*
 
 ### Windows Agent Download
 ![Windows Agent Download](../screenshots/15-windows-agent-download.png)
+*Downloading the Wazuh agent installer via PowerShell.*
 
 ### Windows Agent Installation
 ![Windows Agent Installation](../screenshots/16-windows-agent-installation.png)
+*Running the Wazuh agent installer silently with the manager IP specified.*
 
 ### Windows Agent Service Running
 ![Windows Agent Service](../screenshots/17-wazuh-agent-service.png)
+*Confirming that the Wazuh service is actively running on the Windows endpoint.*
 
 ### Agent Registered
 ![Agent Registered](../screenshots/18-agent-registered.png)
+*The Wazuh Dashboard indicating the Windows agent has been successfully registered.*
 
 ### Active Windows Agent
 ![Active Agent](../screenshots/19-active-agents.png)
+*The Windows 11 endpoint appearing as an 'Active' agent in the Wazuh Dashboard.*
 
 ### Generating Failed Logon (Test Event)
 ![Generating Failed Logon](../screenshots/19a-failed-logon-test.png)
+*Intentionally failing a login attempt via PowerShell to generate a security event.*
 
 ### Verifying Failed Logon in Windows Event Viewer
 ![Windows Event Viewer](../screenshots/19b-failed-logon-events.png)
+*Reviewing the Windows Security logs (Event ID 4625) to confirm the failed logon was recorded locally.*
 
 ### Wazuh Dashboard Events Overview
 ![Dashboard Events Overview](../screenshots/19c-dashboard-events-overview.png)
+*The Threat Hunting dashboard showing the newly generated security events.*
 
 ### Wazuh Dashboard Alert (Failed Logon)
 ![Failed Logon Alert](../screenshots/19d-dashboard-failed-logon.png)
+*Wazuh successfully triggering an alert for the failed logon attempt.*
 
 ---
 
