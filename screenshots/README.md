@@ -20,7 +20,18 @@
 ├── 16-windows-agent-installation.png
 ├── 17-wazuh-agent-service.png
 ├── 18-agent-registered.png
+├── 18a-agent-pending.png
 ├── 19-active-agents.png
+├── 19a-failed-logon-test.png
+├── 19b-failed-logon-events.png
+├── 19c-dashboard-events-overview.png
+├── 19d-dashboard-failed-logon.png
+├── 20-kali-agent-threat-hunting.png
+├── 21-kali-agent-log-telemetry.png
+├── 22-agent-threat-hunting-events.png
+├── Screenshot 2026-08-17 010853.png
+├── Screenshot 2026-08-17 012801.png
+├── Screenshot 2026-08-17 014722.png
 │
 ├── 20-sysmon-download.png
 ├── 21-sysmon-installation.png
@@ -172,6 +183,27 @@
 ## Active Agents
 
 ![Active Agents](../screenshots/19-active-agents.png)
+
+---
+
+## Kali Linux Agent (004) — Threat Hunting Overview
+
+![Kali Threat Hunting Overview](../screenshots/20-kali-agent-threat-hunting.png)
+*Initial telemetry and SCA metrics ingested into Wazuh Dashboard for Kali Linux agent (`hacker01` / `004`).*
+
+---
+
+## Kali Linux Agent (004) — Comprehensive Log Telemetry & Rule Groups
+
+![Kali Log Telemetry](../screenshots/21-kali-agent-log-telemetry.png)
+*Multi-source log ingestion (dpkg, syslog, config_changed, sca, ossec) showing 214 security events captured for the Kali agent.*
+
+---
+
+## Agent Threat Hunting Events Detail View
+
+![Agent Events Detail View](../screenshots/22-agent-threat-hunting-events.png)
+*Real-time Threat Hunting event table showing rule descriptions, rule IDs (61104, 60642, 19009, 61102), severity levels, and CIS benchmarks.*
 
 ---
 
