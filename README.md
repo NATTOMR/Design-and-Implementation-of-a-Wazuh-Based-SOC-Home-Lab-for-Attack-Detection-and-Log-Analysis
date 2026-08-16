@@ -20,15 +20,7 @@ The environment consists of:
 
 The objective is to detect malicious activities, collect security events, analyze logs, and generate alerts through the Wazuh Dashboard.
 
----
 
-## 🎥 Video Demonstration
-
-Watch the complete video demonstration of this SOC Home Lab project on YouTube:
-
-[![SOC Home Lab Video Demonstration](https://img.youtube.com/vi/duEibRGYMHo/0.jpg)](https://youtu.be/duEibRGYMHo?si=kfcGcQ_OzSiN8hRz)
-
-*(Click the image above to watch the video)*
 
 ---
 
@@ -221,6 +213,12 @@ The complete project report is available in
 ```
 reports/Final_Report.pdf
 ```
+
+---
+
+# 📚 References
+
+- [Project Video Demonstration on YouTube](https://youtu.be/duEibRGYMHo?si=kfcGcQ_OzSiN8hRz)
 
 ---
 
