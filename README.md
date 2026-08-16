@@ -22,6 +22,16 @@ The objective is to detect malicious activities, collect security events, analyz
 
 ---
 
+## 🎥 Video Demonstration
+
+Watch the complete video demonstration of this SOC Home Lab project on YouTube:
+
+[![SOC Home Lab Video Demonstration](https://img.youtube.com/vi/duEibRGYMHo/0.jpg)](https://youtu.be/duEibRGYMHo?si=kfcGcQ_OzSiN8hRz)
+
+*(Click the image above to watch the video)*
+
+---
+
 # 🎯 Objectives
 
 - Deploy a complete Wazuh SIEM environment
