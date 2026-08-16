@@ -404,6 +404,18 @@ The following screenshots demonstrate the successful installation and configurat
 ### Active Windows Agent
 ![Active Agent](../screenshots/19-active-agents.png)
 
+### Generating Failed Logon (Test Event)
+![Generating Failed Logon](../screenshots/19a-failed-logon-test.png)
+
+### Verifying Failed Logon in Windows Event Viewer
+![Windows Event Viewer](../screenshots/19b-failed-logon-events.png)
+
+### Wazuh Dashboard Events Overview
+![Dashboard Events Overview](../screenshots/19c-dashboard-events-overview.png)
+
+### Wazuh Dashboard Alert (Failed Logon)
+![Failed Logon Alert](../screenshots/19d-dashboard-failed-logon.png)
+
 ---
 
 # References
