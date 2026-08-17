@@ -612,13 +612,40 @@ def build_pdf(filename="reports/Final_Report.pdf"):
     story.append(Paragraph("• <b>SOAR Automation:</b> Deploy Shuffle SOAR to automate active response actions (such as automated endpoint network isolation upon critical alert triggers).", bullet_style))
     story.append(Paragraph("• <b>Incident Management:</b> Integrate TheHive and MISP for structured security incident ticketing and collaborative threat intel sharing.", bullet_style))
 
-    story.append(Spacer(1, 15))
-    story.append(HRFlowable(width="100%", thickness=1, color=border_color, spaceBefore=8, spaceAfter=12))
+    # =========================================================================
+    # 12. CHAPTER 11: REFERENCES & MULTIMEDIA DEMONSTRATION
+    # =========================================================================
+    story.append(Paragraph("11. Academic References & Multimedia Demonstration", h1_style))
+    story.append(Paragraph("This project is supported by the following official documentation, academic standards, threat intelligence repositories, and practical demonstration resources:", body_style))
+
+    ref_data = [
+        [Paragraph("Reference Category", table_header), Paragraph("Resource / Citation Details", table_header), Paragraph("URL / Source Location", table_header)],
+        [Paragraph("<b>Project Video Demo</b>", table_cell_bold), Paragraph("<b>Official End-to-End SOC Lab Walkthrough Video:</b> Step-by-step video demonstration displaying VM deployment, Kali attack simulations, Sysmon telemetry, and real-time Wazuh dashboard alert correlation.", table_cell), Paragraph("<b>https://youtu.be/duEibRGYMHo</b>", table_cell_code)],
+        [Paragraph("<b>Wazuh SIEM Platform</b>", table_cell_bold), Paragraph("Wazuh Inc. (2024). <i>Wazuh Security Platform Documentation, Ruleset Engine, and Decoders Guide</i>. Version 4.x.", table_cell), Paragraph("https://documentation.wazuh.com", table_cell_code)],
+        [Paragraph("<b>Microsoft Sysmon (Windows)</b>", table_cell_bold), Paragraph("Russinovich, M., & Garnier, T. (Microsoft Sysinternals). <i>System Monitor (Sysmon) Windows Endpoint Telemetry</i>.", table_cell), Paragraph("https://learn.microsoft.com/sysinternals/downloads/sysmon", table_cell_code)],
+        [Paragraph("<b>Sysmon for Linux (eBPF)</b>", table_cell_bold), Paragraph("Microsoft Open Source. <i>SysmonForLinux: Extended Berkeley Packet Filter (eBPF) Kernel Activity Monitor</i>.", table_cell), Paragraph("https://github.com/microsoft/SysmonForLinux", table_cell_code)],
+        [Paragraph("<b>Sysmon Config Baseline</b>", table_cell_bold), Paragraph("SwiftOnSecurity. <i>Sysmon Modular Configuration File for High-Fidelity Threat Hunting and Event Logging</i>.", table_cell), Paragraph("https://github.com/SwiftOnSecurity/sysmon-config", table_cell_code)],
+        [Paragraph("<b>MITRE ATT&CK Matrix</b>", table_cell_bold), Paragraph("MITRE Corporation (2024). <i>MITRE ATT&CK Enterprise Matrix (Tactics: T1595, T1110, T1059, T1547, T1070)</i>.", table_cell), Paragraph("https://attack.mitre.org", table_cell_code)],
+        [Paragraph("<b>Offensive Security Tools</b>", table_cell_bold), Paragraph("Lyon, G. (Nmap Project) & Van Hauser (THC-Hydra). <i>Network Reconnaissance & Protocol Password Security Testing Suite</i>.", table_cell), Paragraph("https://nmap.org | https://github.com/vanhauser-thc/thc-hydra", table_cell_code)],
+        [Paragraph("<b>Operating Systems</b>", table_cell_bold), Paragraph("Canonical Ltd. <i>Ubuntu Server 24.04 LTS Guide</i> & Oracle. <i>Oracle VM VirtualBox NAT Networking Documentation</i>.", table_cell), Paragraph("https://ubuntu.com/server/docs | https://virtualbox.org/manual", table_cell_code)]
+    ]
+    t_ref = Table(ref_data, colWidths=[105, 235, 164])
+    t_ref.setStyle(TableStyle([
+        ('BACKGROUND', (0,0), (-1,0), dark_blue),
+        ('ROWBACKGROUNDS', (0,1), (-1,-1), [bg_light, colors.white]),
+        ('GRID', (0,0), (-1,-1), 0.5, border_color),
+        ('TOPPADDING', (0,0), (-1,-1), 3),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 3),
+    ]))
+    story.append(t_ref)
+    story.append(Spacer(1, 10))
+
+    story.append(HRFlowable(width="100%", thickness=1, color=border_color, spaceBefore=6, spaceAfter=10))
 
     signoff = [
         [Paragraph("<b>Project Status:</b> COMPLETED & VERIFIED", body_style), Paragraph("<b>Lead Author:</b> Natto Muni Chakma", body_style)],
         [Paragraph("<b>Degree Program:</b> B.Tech Computer Science & Eng.", body_style), Paragraph("<b>Institution:</b> Andhra University College of Eng.", body_style)],
-        [Paragraph("<b>Project Demonstration:</b> https://youtu.be/duEibRGYMHo", body_style), Paragraph("<b>GitHub Repository:</b> github.com/NATTOMR", body_style)]
+        [Paragraph("<b>Video Walkthrough:</b> https://youtu.be/duEibRGYMHo", body_style), Paragraph("<b>GitHub Repository:</b> github.com/NATTOMR", body_style)]
     ]
     t_sign = Table(signoff, colWidths=[252, 252])
     t_sign.setStyle(TableStyle([
