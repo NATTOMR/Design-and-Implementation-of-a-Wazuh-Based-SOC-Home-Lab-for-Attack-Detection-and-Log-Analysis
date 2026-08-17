@@ -98,6 +98,26 @@ sudo ufw enable
 
 ---
 
+# Screenshots
+
+### 1. Ubuntu Server Installation Process
+![Ubuntu Server Installation](../screenshots/04-ubuntu-installation.png)
+*Ubuntu Server 24.04 installer configuration in Oracle VirtualBox.*
+
+---
+
+### 2. Initial Terminal Login
+![Ubuntu Server Login](../screenshots/05-ubuntu-login.png)
+*Successful console authentication into the Wazuh host server.*
+
+---
+
+### 3. System Update & Package Upgrade
+![System Update](../screenshots/06-system-update.png)
+*Executing `apt update` and package upgrades prior to Wazuh deployment.*
+
+---
+
 # Verification
 
 Ensure services are running as expected:
@@ -114,3 +134,4 @@ sudo ufw status verbose
 After completing the Ubuntu Server setup, proceed to:
 1. **[Wazuh Installation Guide](Wazuh-Installation.md)** to deploy Wazuh Manager, Indexer, and Dashboard.
 2. **[Windows 11 Agent Installation](Windows11-Agent.md)** to connect victim endpoints.
+3. **[Sysmon Configuration for Linux](Sysmon-Configuration-Linux.md)** to collect eBPF endpoint telemetry on Linux hosts.

@@ -9,7 +9,8 @@ This directory contains the core configuration files used to configure telemetry
 | File | Target Location | Description |
 | :--- | :--- | :--- |
 | [`ossec.conf`](ossec.conf) | `C:\Program Files (x86)\ossec-agent\ossec.conf` | Wazuh Agent configuration for Windows endpoint log channel subscriptions (Security, Sysmon, PowerShell, FIM). |
-| [`sysmonconfig.xml`](sysmonconfig.xml) | `C:\Tools\Sysmon\sysmonconfig.xml` | Microsoft Sysmon XML configuration defining event filtering for process creation, network connections, file modifications, and registry events. |
+| [`sysmonconfig.xml`](sysmonconfig.xml) | `C:\Sysmon\sysmonconfig.xml` | Microsoft Sysmon XML configuration defining Windows event filtering for process creation, network connections, file modifications, and registry events. |
+| [`sysmonconfig-linux.xml`](sysmonconfig-linux.xml) | `/etc/sysmon/sysmonconfig-linux.xml` | Sysmon for Linux XML configuration defining eBPF telemetry filters for process lifecycle, network connections, raw reads, and file activity. |
 | [`local_rules.xml`](local_rules.xml) | `/var/ossec/etc/rules/local_rules.xml` | Custom Wazuh detection rules for PowerShell execution, port scans, brute-force logins, and registry persistence. |
 | [`local_decoder.xml`](local_decoder.xml) | `/var/ossec/etc/decoders/local_decoder.xml` | Custom log decoders for extracting custom event fields before rule matching. |
 
@@ -17,20 +18,27 @@ This directory contains the core configuration files used to configure telemetry
 
 ## 🛠️ Usage Instructions
 
-### 1. Applying Sysmon Configuration (Windows Endpoint)
+### 1. Applying Windows Sysmon Configuration
 Execute in PowerShell as Administrator:
 ```powershell
-Sysmon64.exe -i C:\Tools\Sysmon\sysmonconfig.xml
+Sysmon64.exe -i C:\Sysmon\sysmonconfig.xml
 ```
 
-### 2. Updating Wazuh Agent Configuration (Windows Endpoint)
+### 2. Applying Linux Sysmon Configuration
+Execute on Linux endpoint:
+```bash
+sudo sysmon -i /etc/sysmon/sysmonconfig-linux.xml
+sudo systemctl enable --now sysmon
+```
+
+### 3. Updating Wazuh Agent Configuration (Windows Endpoint)
 Replace `ossec.conf` in `C:\Program Files (x86)\ossec-agent\ossec.conf` and restart the agent service:
 ```powershell
 NET STOP WazuhSvc
 NET START WazuhSvc
 ```
 
-### 3. Deploying Custom Rules & Decoders (Ubuntu Wazuh Manager)
+### 4. Deploying Custom Rules & Decoders (Ubuntu Wazuh Manager)
 Copy rules and decoders to the Wazuh Manager path and restart manager:
 ```bash
 sudo cp local_rules.xml /var/ossec/etc/rules/local_rules.xml

@@ -126,94 +126,80 @@ The objective is to detect malicious activities, collect security events, analyz
 # 📚 Documentation
 
 | Document | Description |
-|----------|-------------|
-| docs/Architecture.md | Lab architecture |
-| docs/Ubuntu-Installation.md | Ubuntu Server 24.04 installation |
-| docs/Wazuh-Installation.md | Complete Wazuh installation |
-| docs/Windows11-Agent.md | Windows Agent installation |
-| docs/Sysmon-Configuration-Windows.md | Sysmon deployment on Windows 11 |
-| docs/Sysmon-Configuration-Linux.md | Sysmon for Linux deployment |
-| docs/Kali-Attack-Simulation.md | Attack simulations |
-| docs/Detection-Rules.md | Detection rules |
-| docs/Troubleshooting.md | Common issues |
+|:---|:---|
+| [docs/Architecture.md](docs/Architecture.md) | Lab architecture and virtual network topology |
+| [docs/Ubuntu-Installation.md](docs/Ubuntu-Installation.md) | Ubuntu Server 24.04 LTS deployment |
+| [docs/Wazuh-Installation.md](docs/Wazuh-Installation.md) | Complete Wazuh SIEM platform installation |
+| [docs/Windows11-Agent.md](docs/Windows11-Agent.md) | Windows 11 Wazuh Agent deployment |
+| [docs/Sysmon-Configuration-Windows.md](docs/Sysmon-Configuration-Windows.md) | Microsoft Sysmon deployment on Windows 11 |
+| [docs/Sysmon-Configuration-Linux.md](docs/Sysmon-Configuration-Linux.md) | Microsoft Sysmon for Linux (`sysmonforlinux`) eBPF telemetry |
+| [docs/Kali-Attack-Simulation.md](docs/Kali-Attack-Simulation.md) | Offensive security attack simulations |
+| [docs/Detection-Rules.md](docs/Detection-Rules.md) | Built-in and custom detection rules |
+| [docs/Troubleshooting.md](docs/Troubleshooting.md) | SOC lab deployment troubleshooting |
+| [docs/WAZUH_COMMAND_REFERENCE.md](docs/WAZUH_COMMAND_REFERENCE.md) | Complete Wazuh command cheatsheet |
 
 ---
 
 # 🔥 Attack Simulations
 
-The following attacks were simulated and detected.
+The following attack scenarios and tactics were simulated and detected in this lab:
 
-- Network Scanning (Nmap)
-- SSH Brute Force
-- RDP Brute Force
-- Failed Logon Attempts
-- PowerShell Execution
-- Sysmon Process Creation
-- Service Installation
-- Registry Modification
-- File Integrity Monitoring
+- **Network Reconnaissance & Port Scanning** (Nmap TCP Syn / Service / Aggressive scans)
+- **Authentication & Brute Force** (Hydra RDP/SSH & Windows Event 4625 failed logons)
+- **Suspicious Process Execution** (PowerShell, `curl`, `netcat`, and suspicious binaries)
+- **Advanced Endpoint Telemetry** (Sysmon Process Creation `EventID 1`, Network Connect `EventID 3`, Process Terminate `EventID 5`)
+- **Persistence & Configuration Changes** (Windows Registry modifications & Linux `/etc/` file changes)
+- **File Integrity Monitoring (FIM)** (Real-time file creation and tampering detection)
 
 ---
 
 # 📊 Detection Workflow
 
-```
-Attack
-   │
-   ▼
-Windows Event Logs
-   │
-Sysmon
-   │
-Wazuh Agent
-   │
-Wazuh Manager
-   │
-Rules Engine
-   │
-Alert Generation
-   │
-Dashboard
+```mermaid
+flowchart TD
+    A["⚔️ Cyber Attack / Simulation (Kali Linux)"] --> B["🖥️ Monitored Endpoint (Windows 11 / Linux)"]
+    B --> C["📋 Windows Event Logs / Syslog"]
+    B --> D["🔍 Microsoft Sysmon (eBPF / Drivers)"]
+    C --> E["📡 Wazuh Agent"]
+    D --> E
+    E -->|Encrypted Stream :1514| F["🛡️ Wazuh Manager (Ubuntu Server)"]
+    F --> G["⚙️ Decoders & Rules Engine"]
+    G --> H["🚨 Alert Indexing (OpenSearch Indexer)"]
+    H --> I["📊 Wazuh Dashboard Visualization"]
 ```
 
 ---
 
-# 📸 Screenshots
+# 📸 Key Visual Evidence & Dashboards
 
-The complete screenshots are available inside
+![Wazuh Dashboard Home](screenshots/13-wazuh-dashboard-home.png)
+*Centralized Wazuh Dashboard home interface presenting aggregate security alerts.*
 
-```
-screenshots/
-```
+![Active Agents Overview](screenshots/19-active-agents.png)
+*Multi-platform active endpoint monitoring in Wazuh Dashboard.*
 
-Example screenshots include
+![Sysmon Telemetry Ingestion](screenshots/24-sysmon-events-dashboard.png)
+*Live endpoint telemetry and Sysmon process events indexed in Wazuh.*
 
-- Wazuh Dashboard
-- Agent Registration
-- Nmap Detection
-- Sysmon Events
-- Alert Dashboard
-- Security Overview
+> Complete screenshot gallery available in **[screenshots/README.md](screenshots/README.md)**.
 
 ---
 
 # 🚀 Installation Guide
 
-Detailed installation instructions are available in
-
-```
-docs/Wazuh-Installation.md
-```
+Step-by-step installation instructions are available in:
+- **[Wazuh Installation Guide](docs/Wazuh-Installation.md)**
+- **[Windows 11 Agent Guide](docs/Windows11-Agent.md)**
+- **[Sysmon Windows Guide](docs/Sysmon-Configuration-Windows.md)**
+- **[Sysmon Linux Guide](docs/Sysmon-Configuration-Linux.md)**
 
 ---
 
 # 📑 Project Report
 
-The complete project report is available in
-
-```
-reports/Final_Report.pdf
-```
+The complete academic project report is available in:
+- **[`reports/Final_Report.pdf`](reports/Final_Report.pdf)**
+- **[Report Summary Documentation](reports/README.md)**
 
 ---
 

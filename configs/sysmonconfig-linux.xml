@@ -1,0 +1,84 @@
+<!--
+  Sysmon for Linux Configuration File
+  SOC Home Lab Telemetry Collection
+  Supported Schema: 4.90 / 4.91
+-->
+<Sysmon schemaversion="4.90">
+  <EventFiltering>
+    <!-- Event ID 1: Process Creation -->
+    <RuleGroup name="ProcessCreate" groupRelation="or">
+      <ProcessCreate onmatch="exclude">
+        <!-- Exclude high-frequency background utilities -->
+        <Image condition="is">/usr/bin/uptime</Image>
+        <Image condition="is">/usr/bin/top</Image>
+      </ProcessCreate>
+      <ProcessCreate onmatch="include">
+        <!-- Capture suspicious binaries, shells, and reconnaissance tools -->
+        <Image condition="contains">nc</Image>
+        <Image condition="contains">nmap</Image>
+        <Image condition="contains">hydra</Image>
+        <Image condition="contains">socat</Image>
+        <Image condition="contains">python</Image>
+        <Image condition="contains">bash</Image>
+        <Image condition="contains">sh</Image>
+        <Image condition="begin with">/tmp/</Image>
+        <Image condition="begin with">/dev/shm/</Image>
+      </ProcessCreate>
+    </RuleGroup>
+
+    <!-- Event ID 3: Network Connection -->
+    <RuleGroup name="NetworkConnect" groupRelation="or">
+      <NetworkConnect onmatch="include">
+        <DestinationPort condition="is">22</DestinationPort>
+        <DestinationPort condition="is">80</DestinationPort>
+        <DestinationPort condition="is">443</DestinationPort>
+        <DestinationPort condition="is">4444</DestinationPort>
+        <DestinationPort condition="is">8080</DestinationPort>
+        <DestinationPort condition="is">9001</DestinationPort>
+        <DestinationPort condition="is">1514</DestinationPort>
+        <DestinationPort condition="is">1515</DestinationPort>
+      </NetworkConnect>
+    </RuleGroup>
+
+    <!-- Event ID 5: Process Termination -->
+    <RuleGroup name="ProcessTerminate" groupRelation="or">
+      <ProcessTerminate onmatch="include">
+        <Image condition="contains">nc</Image>
+        <Image condition="contains">nmap</Image>
+        <Image condition="contains">hydra</Image>
+      </ProcessTerminate>
+    </RuleGroup>
+
+    <!-- Event ID 9: Raw Access Read -->
+    <RuleGroup name="RawAccessRead" groupRelation="or">
+      <RawAccessRead onmatch="include">
+        <Device condition="begin with">/dev/</Device>
+      </RawAccessRead>
+    </RuleGroup>
+
+    <!-- Event ID 11: File Creation -->
+    <RuleGroup name="FileCreate" groupRelation="or">
+      <FileCreate onmatch="include">
+        <TargetFilename condition="begin with">/tmp/</TargetFilename>
+        <TargetFilename condition="begin with">/dev/shm/</TargetFilename>
+        <TargetFilename condition="begin with">/etc/</TargetFilename>
+        <TargetFilename condition="begin with">/var/www/</TargetFilename>
+      </FileCreate>
+    </RuleGroup>
+
+    <!-- Event ID 16: Sysmon Config State Change -->
+    <RuleGroup name="SysmonConfigStateChanged" groupRelation="or">
+      <SysmonConfigStateChanged onmatch="include">
+        <State condition="is">Loaded</State>
+      </SysmonConfigStateChanged>
+    </RuleGroup>
+
+    <!-- Event ID 23: File Delete -->
+    <RuleGroup name="FileDelete" groupRelation="or">
+      <FileDelete onmatch="include">
+        <TargetFilename condition="begin with">/tmp/</TargetFilename>
+        <TargetFilename condition="begin with">/dev/shm/</TargetFilename>
+      </FileDelete>
+    </RuleGroup>
+  </EventFiltering>
+</Sysmon>

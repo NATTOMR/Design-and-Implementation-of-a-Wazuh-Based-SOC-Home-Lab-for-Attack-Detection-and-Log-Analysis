@@ -30,9 +30,6 @@
 ├── 21-kali-agent-log-telemetry.png
 ├── 21a-kali-auth-pam-events.png
 ├── 22-agent-threat-hunting-events.png
-├── Screenshot 2026-08-17 010853.png
-├── Screenshot 2026-08-17 012801.png
-├── Screenshot 2026-08-17 014722.png
 │
 ├── 20-sysmon-download.png
 ├── 21-sysmon-installation.png

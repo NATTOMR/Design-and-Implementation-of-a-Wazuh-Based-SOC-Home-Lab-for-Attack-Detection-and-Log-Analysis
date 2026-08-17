@@ -267,16 +267,54 @@ C:\Program Files (x86)\ossec-agent\
 
 # Screenshots
 
-Capture the following:
+### 1. Windows 11 Endpoint Desktop & Connectivity
+![Windows 11 Desktop](../screenshots/14-windows11-desktop.png)
+*Windows 11 virtual machine desktop environment.*
 
-1. Windows Desktop
-2. Wazuh Agent Installer
-3. Installation Wizard
-4. Windows Service Running
-5. PowerShell Service Status
-6. Active Agent in Dashboard
-7. Security Events
-8. Failed Login Alert
+![Windows 11 Ping Connectivity](../screenshots/14a-windows11-ping.png)
+*ICMP ping test verifying network reachability to the Wazuh Manager.*
+
+---
+
+### 2. Wazuh Agent Download & Deployment
+![Wazuh Agent Download](../screenshots/15-windows-agent-download.png)
+*Downloading the Windows MSI agent package.*
+
+![Wazuh Agent Deploy Command](../screenshots/15a-windows-agent-deploy.png)
+*Executing agent deployment command with manager registration parameters.*
+
+---
+
+### 3. Agent Installation & Service Status
+![Windows Agent Installation](../screenshots/16-windows-agent-installation.png)
+*Wazuh Agent installation process completing on the Windows 11 host.*
+
+![Wazuh Agent Service](../screenshots/17-wazuh-agent-service.png)
+*Windows Services console (`services.msc`) showing `WazuhSvc` in `Running` state.*
+
+---
+
+### 4. Manager Registration & Active Dashboard
+![Agent Registered](../screenshots/18-agent-registered.png)
+*Wazuh Manager acknowledging agent registration with assigned Agent ID `003`.*
+
+![Active Agents](../screenshots/19-active-agents.png)
+*Wazuh Dashboard Active Agents summary showing Windows 11 endpoint actively reporting.*
+
+---
+
+### 5. Security Telemetry & Failed Logon Detection
+![Failed Logon Test](../screenshots/19a-failed-logon-test.png)
+*Simulating failed logon attempts on the Windows endpoint.*
+
+![Event Viewer Failed Logon Events](../screenshots/19b-failed-logon-events.png)
+*Windows Event Viewer recording Event ID 4625 (Failed Logon).*
+
+![Wazuh Dashboard Events Overview](../screenshots/19c-dashboard-events-overview.png)
+*Wazuh Dashboard Security Events overview displaying ingested telemetry.*
+
+![Wazuh Dashboard Failed Logon Alert](../screenshots/19d-dashboard-failed-logon.png)
+*Wazuh Alert triggered for Windows logon failure (Rule 18152 / Event 4625).*
 
 ---
 
