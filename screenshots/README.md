@@ -28,6 +28,7 @@
 ├── 19d-dashboard-failed-logon.png
 ├── 20-kali-agent-threat-hunting.png
 ├── 21-kali-agent-log-telemetry.png
+├── 21a-kali-auth-pam-events.png
 ├── 22-agent-threat-hunting-events.png
 ├── Screenshot 2026-08-17 010853.png
 ├── Screenshot 2026-08-17 012801.png
@@ -40,6 +41,8 @@
 ├── 24a-ossec-sysmon-config.png
 ├── 24b-wazuh-service-restart.png
 ├── 24-sysmon-events-dashboard.png
+├── 24c-sysmon-linux-events-dashboard.png
+├── 24d-windows-sysmon-threat-hunting.png
 │
 ├── 25-kali-desktop.png
 ├── 26-kali-ip-address.png
@@ -202,6 +205,13 @@
 
 ---
 
+## Kali Linux Agent (004) — Authentication & PAM Logs
+
+![Kali PAM Auth Events](../screenshots/21a-kali-auth-pam-events.png)
+*Wazuh Alerts index (`wazuh-alerts-*`) capturing authentication and privilege telemetry (`/var/log/auth.log` Rule 5502: PAM login session for `root`).*
+
+---
+
 ## Agent Threat Hunting Events Detail View
 
 ![Agent Events Detail View](../screenshots/22-agent-threat-hunting-events.png)
@@ -251,10 +261,24 @@
 
 ---
 
-## Sysmon Events Telemetry in Wazuh Dashboard
+## Sysmon Events Telemetry in Wazuh Dashboard (Windows 11)
 
 ![Sysmon Events Dashboard](../screenshots/24-sysmon-events-dashboard.png)
 *Wazuh Discover interface showing 1,400+ Sysmon telemetry events ingested from the Windows 11 endpoint (`hackme` / `003`).*
+
+---
+
+## Sysmon for Linux Telemetry Ingestion (10,000+ Events)
+
+![Sysmon for Linux Events Dashboard](../screenshots/24c-sysmon-linux-events-dashboard.png)
+*Wazuh Discover querying `sysmon` on `wazuh-archives-*` showing 10,135 ingested events from Kali Linux endpoint (`agent.name: kali`, `agent.id: 004`, `192.168.100.6`), capturing `Linux-Sysmon` process termination (`EventID 5`) via `/var/log/syslog`.*
+
+---
+
+## Windows Sysmon Filtered Threat Hunting View
+
+![Windows Sysmon Threat Hunting](../screenshots/24d-windows-sysmon-threat-hunting.png)
+*Wazuh Discover filtered query `agent.id:003 AND sysmon` isolating 1,290+ endpoint telemetry hits from Windows agent.*
 
 ---
 

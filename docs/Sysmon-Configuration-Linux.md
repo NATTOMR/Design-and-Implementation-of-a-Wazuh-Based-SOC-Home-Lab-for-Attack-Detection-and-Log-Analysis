@@ -380,6 +380,20 @@ sudo sysmon -c /etc/sysmon/sysmonconfig-linux.xml
 
 ---
 
+# Screenshots
+
+### 1. Wazuh Dashboard — Sysmon for Linux Ingestion (10,000+ Events)
+![Sysmon for Linux Dashboard Ingestion](../screenshots/24c-sysmon-linux-events-dashboard.png)
+*Wazuh Discover querying `sysmon` on `wazuh-archives-*` showing 10,135 ingested events from Kali Linux endpoint (`agent.name: kali`, `agent.id: 004`, `192.168.100.6`), capturing `Linux-Sysmon` process termination (`EventID 5`) via `/var/log/syslog`.*
+
+---
+
+### 2. Linux Authentication & PAM Telemetry
+![Kali PAM Auth Events](../screenshots/21a-kali-auth-pam-events.png)
+*Wazuh Alerts index (`wazuh-alerts-*`) capturing authentication and privilege telemetry (`/var/log/auth.log` Rule 5502: PAM login session for `root`).*
+
+---
+
 # Verification Checklist
 
 - [x] Microsoft package repository and GPG key registered
@@ -388,7 +402,7 @@ sudo sysmon -c /etc/sysmon/sysmonconfig-linux.xml
 - [x] `sysmon.service` active and running via systemd
 - [x] Local telemetry streaming in `journalctl` / `/var/log/syslog`
 - [x] Wazuh Agent configured to collect Sysmon log channel
-- [x] Events visible and searchable in Wazuh Dashboard
+- [x] Events visible and searchable in Wazuh Dashboard (10,000+ hits captured)
 
 ---
 
