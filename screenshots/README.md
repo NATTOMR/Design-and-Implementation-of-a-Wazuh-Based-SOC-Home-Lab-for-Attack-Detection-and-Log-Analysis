@@ -37,6 +37,8 @@
 ├── 21-sysmon-installation.png
 ├── 22-sysmon-service.png
 ├── 23-event-viewer-sysmon.png
+├── 24a-ossec-sysmon-config.png
+├── 24b-wazuh-service-restart.png
 ├── 24-sysmon-events-dashboard.png
 │
 ├── 25-kali-desktop.png
@@ -207,33 +209,52 @@
 
 ---
 
-## Sysmon Download
+## Sysmon Download & Working Directory Setup
 
 ![Sysmon Download](../screenshots/20-sysmon-download.png)
+*Extracted Sysmon binaries (`Sysmon64.exe`) and configuration XML (`sysmonconfig-export.xml`) placed in `C:\Sysmon`.*
 
 ---
 
-## Sysmon Installation
+## Sysmon Installation via PowerShell
 
 ![Sysmon Installation](../screenshots/21-sysmon-installation.png)
+*PowerShell Administrator execution: `.\Sysmon64.exe -accepteula -i sysmonconfig-export.xml` with schema version 4.91 validation.*
 
 ---
 
-## Sysmon Service
+## Sysmon Service Status
 
 ![Sysmon Service](../screenshots/22-sysmon-service.png)
+*Verification of `Sysmon64` service in `Running` status using `Get-Service Sysmon64`.*
 
 ---
 
-## Event Viewer - Sysmon
+## Event Viewer - Sysmon Operational Logs
 
 ![Event Viewer Sysmon](../screenshots/23-event-viewer-sysmon.png)
+*Windows Event Viewer navigated to `Microsoft-Windows-Sysmon/Operational` capturing real-time Event ID 1 (Process Create).*
 
 ---
 
-## Sysmon Events Dashboard
+## Wazuh Agent ossec.conf Sysmon Configuration
+
+![Wazuh ossec.conf Sysmon](../screenshots/24a-ossec-sysmon-config.png)
+*Wazuh Agent configuration (`ossec.conf`) enabling Sysmon event channel log collection.*
+
+---
+
+## Wazuh Agent Service Restart
+
+![Wazuh Service Restart](../screenshots/24b-wazuh-service-restart.png)
+*Restarting `WazuhSvc` service (`NET STOP WazuhSvc` & `NET START WazuhSvc`) to begin forwarding Sysmon logs.*
+
+---
+
+## Sysmon Events Telemetry in Wazuh Dashboard
 
 ![Sysmon Events Dashboard](../screenshots/24-sysmon-events-dashboard.png)
+*Wazuh Discover interface showing 1,400+ Sysmon telemetry events ingested from the Windows 11 endpoint (`hackme` / `003`).*
 
 ---
 
