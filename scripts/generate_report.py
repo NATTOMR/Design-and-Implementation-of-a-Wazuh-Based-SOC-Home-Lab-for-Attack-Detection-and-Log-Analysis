@@ -1,6 +1,6 @@
 """
-Script to generate the comprehensive academic and industry final project report for:
-Design and Implementation of a Wazuh-Based SOC Home Lab for Attack Detection and Log Analysis
+Academic & Enterprise Project Report Generator
+Project: Design and Implementation of a Wazuh-Based SOC Home Lab for Attack Detection and Log Analysis
 Author: Natto Muni Chakma
 """
 
@@ -10,7 +10,7 @@ from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import inch
 from reportlab.platypus import (
-    SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, PageBreak, KeepTogether, HRFlowable
+    SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, PageBreak, KeepTogether, HRFlowable, Image
 )
 from reportlab.pdfgen import canvas
 
@@ -33,27 +33,77 @@ class NumberedCanvas(canvas.Canvas):
 
     def draw_page_decorations(self, page_count):
         if self._pageNumber == 1:
-            # Skip cover page
+            # Decorative cover page border
+            self.saveState()
+            self.setStrokeColor(colors.HexColor("#0284C7"))
+            self.setLineWidth(4)
+            self.rect(24, 24, 8.5 * 72 - 48, 11 * 72 - 48)
+            self.setStrokeColor(colors.HexColor("#0F172A"))
+            self.setLineWidth(1)
+            self.rect(28, 28, 8.5 * 72 - 56, 11 * 72 - 56)
+            self.restoreState()
             return
 
         self.saveState()
-        self.setFont("Helvetica", 8)
-        self.setFillColor(colors.HexColor("#64748B"))
+        self.setFont("Helvetica-Bold", 8)
+        self.setFillColor(colors.HexColor("#0F172A"))
 
         # Header
-        self.drawString(54, 11 * 72 - 36, "Design and Implementation of a Wazuh-Based SOC Home Lab")
-        self.drawRightString(8.5 * 72 - 54, 11 * 72 - 36, "Final Project Report | Capstone")
-        self.setStrokeColor(colors.HexColor("#E2E8F0"))
+        self.drawString(54, 11 * 72 - 36, "Wazuh SOC Home Lab: Attack Detection & Log Analysis")
+        self.setFont("Helvetica", 8)
+        self.setFillColor(colors.HexColor("#64748B"))
+        self.drawRightString(8.5 * 72 - 54, 11 * 72 - 36, "Comprehensive Technical & Academic Report")
+        
+        self.setStrokeColor(colors.HexColor("#CBD5E1"))
         self.setLineWidth(0.75)
         self.line(54, 11 * 72 - 42, 8.5 * 72 - 54, 11 * 72 - 42)
 
         # Footer
-        self.setStrokeColor(colors.HexColor("#E2E8F0"))
+        self.setStrokeColor(colors.HexColor("#CBD5E1"))
         self.setLineWidth(0.75)
-        self.line(54, 48, 8.5 * 72 - 54, 48)
-        self.drawString(54, 34, "Author: Natto Muni Chakma | Andhra University College of Engineering")
-        self.drawRightString(8.5 * 72 - 54, 34, f"Page {self._pageNumber} of {page_count}")
+        self.line(54, 45, 8.5 * 72 - 54, 45)
+        
+        self.drawString(54, 32, "Author: Natto Muni Chakma | Andhra University College of Engineering")
+        self.drawRightString(8.5 * 72 - 54, 32, f"Page {self._pageNumber} of {page_count}")
         self.restoreState()
+
+
+def create_code_box(code_text, code_style):
+    formatted = code_text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\n", "<br/>").replace(" ", "&nbsp;")
+    p = Paragraph(formatted, code_style)
+    t = Table([[p]], colWidths=[504])
+    t.setStyle(TableStyle([
+        ('BACKGROUND', (0,0), (-1,-1), colors.HexColor("#F8FAFC")),
+        ('BOX', (0,0), (-1,-1), 1, colors.HexColor("#CBD5E1")),
+        ('LINELEFT', (0,0), (-1,-1), 3.5, colors.HexColor("#0284C7")),
+        ('TOPPADDING', (0,0), (-1,-1), 6),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 6),
+        ('LEFTPADDING', (0,0), (-1,-1), 10),
+        ('RIGHTPADDING', (0,0), (-1,-1), 10),
+    ]))
+    return t
+
+def create_image_box(image_path, caption_text, width=500, height=230, caption_style=None):
+    story_elements = []
+    if os.path.exists(image_path):
+        img = Image(image_path, width=width, height=height)
+        t_img = Table([[img]], colWidths=[width])
+        t_img.setStyle(TableStyle([
+            ('BACKGROUND', (0,0), (-1,-1), colors.HexColor("#F1F5F9")),
+            ('BOX', (0,0), (-1,-1), 1, colors.HexColor("#94A3B8")),
+            ('ALIGN', (0,0), (-1,-1), 'CENTER'),
+            ('VALIGN', (0,0), (-1,-1), 'MIDDLE'),
+            ('TOPPADDING', (0,0), (-1,-1), 4),
+            ('BOTTOMPADDING', (0,0), (-1,-1), 4),
+            ('LEFTPADDING', (0,0), (-1,-1), 4),
+            ('RIGHTPADDING', (0,0), (-1,-1), 4),
+        ]))
+        story_elements.append(t_img)
+        if caption_style:
+            story_elements.append(Spacer(1, 3))
+            story_elements.append(Paragraph(f"<b>Figure:</b> <i>{caption_text}</i>", caption_style))
+        story_elements.append(Spacer(1, 8))
+    return story_elements
 
 
 def build_pdf(filename="reports/Final_Report.pdf"):
@@ -69,7 +119,7 @@ def build_pdf(filename="reports/Final_Report.pdf"):
 
     styles = getSampleStyleSheet()
 
-    # Custom styles
+    # Palette
     primary_color = colors.HexColor("#0F172A")    # Slate 900
     accent_color = colors.HexColor("#0284C7")     # Sky 600
     secondary_color = colors.HexColor("#334155")  # Slate 700
@@ -81,33 +131,33 @@ def build_pdf(filename="reports/Final_Report.pdf"):
         'CoverTitle',
         parent=styles['Normal'],
         fontName='Helvetica-Bold',
-        fontSize=24,
-        leading=30,
+        fontSize=21,
+        leading=26,
         textColor=dark_blue,
-        alignment=1, # Center
-        spaceAfter=15
+        alignment=1,
+        spaceAfter=12
     )
 
     subtitle_style = ParagraphStyle(
         'CoverSubtitle',
         parent=styles['Normal'],
         fontName='Helvetica',
-        fontSize=12,
-        leading=16,
+        fontSize=11,
+        leading=15,
         textColor=secondary_color,
         alignment=1,
-        spaceAfter=25
+        spaceAfter=20
     )
 
     h1_style = ParagraphStyle(
         'Heading1_Custom',
         parent=styles['Heading1'],
         fontName='Helvetica-Bold',
-        fontSize=15,
-        leading=19,
+        fontSize=13.5,
+        leading=17,
         textColor=dark_blue,
         spaceBefore=14,
-        spaceAfter=6,
+        spaceAfter=5,
         keepWithNext=True
     )
 
@@ -115,11 +165,23 @@ def build_pdf(filename="reports/Final_Report.pdf"):
         'Heading2_Custom',
         parent=styles['Heading2'],
         fontName='Helvetica-Bold',
-        fontSize=11,
-        leading=15,
+        fontSize=10.5,
+        leading=14,
         textColor=accent_color,
-        spaceBefore=10,
-        spaceAfter=4,
+        spaceBefore=9,
+        spaceAfter=3,
+        keepWithNext=True
+    )
+
+    h3_style = ParagraphStyle(
+        'Heading3_Custom',
+        parent=styles['Heading3'],
+        fontName='Helvetica-Bold',
+        fontSize=9.5,
+        leading=12.5,
+        textColor=secondary_color,
+        spaceBefore=7,
+        spaceAfter=2,
         keepWithNext=True
     )
 
@@ -127,35 +189,45 @@ def build_pdf(filename="reports/Final_Report.pdf"):
         'Body_Custom',
         parent=styles['Normal'],
         fontName='Helvetica',
-        fontSize=9.5,
-        leading=13.5,
+        fontSize=9,
+        leading=13,
         textColor=primary_color,
-        spaceAfter=6
+        spaceAfter=5
     )
 
     bullet_style = ParagraphStyle(
         'Bullet_Custom',
         parent=body_style,
-        leftIndent=15,
-        firstLineIndent=-10,
-        spaceAfter=3
+        leftIndent=12,
+        firstLineIndent=-8,
+        spaceAfter=2.5
     )
 
     code_style = ParagraphStyle(
         'Code_Custom',
         parent=styles['Normal'],
         fontName='Courier',
+        fontSize=7.5,
+        leading=10,
+        textColor=colors.HexColor("#0F172A")
+    )
+
+    caption_style = ParagraphStyle(
+        'Caption_Style',
+        parent=styles['Normal'],
+        fontName='Helvetica',
         fontSize=8,
         leading=10.5,
-        textColor=colors.HexColor("#0F172A")
+        textColor=colors.HexColor("#475569"),
+        alignment=1
     )
 
     callout_style = ParagraphStyle(
         'Callout_Text',
         parent=styles['Normal'],
         fontName='Helvetica-Oblique',
-        fontSize=9,
-        leading=12.5,
+        fontSize=8.5,
+        leading=12,
         textColor=colors.HexColor("#1E293B")
     )
 
@@ -163,299 +235,405 @@ def build_pdf(filename="reports/Final_Report.pdf"):
         'TableCell',
         parent=styles['Normal'],
         fontName='Helvetica',
-        fontSize=8.5,
-        leading=11,
+        fontSize=8,
+        leading=10.5,
         textColor=primary_color
+    )
+
+    table_cell_bold = ParagraphStyle(
+        'TableCellBold',
+        parent=styles['Normal'],
+        fontName='Helvetica-Bold',
+        fontSize=8,
+        leading=10.5,
+        textColor=primary_color
+    )
+
+    table_cell_code = ParagraphStyle(
+        'TableCellCode',
+        parent=styles['Normal'],
+        fontName='Courier',
+        fontSize=7.5,
+        leading=9.5,
+        textColor=colors.HexColor("#0F172A")
     )
 
     table_header = ParagraphStyle(
         'TableHeader',
         parent=styles['Normal'],
         fontName='Helvetica-Bold',
-        fontSize=8.5,
-        leading=11,
+        fontSize=8,
+        leading=10.5,
         textColor=colors.white
     )
 
     story = []
 
-    # ==========================================
-    # COVER PAGE
-    # ==========================================
-    story.append(Spacer(1, 40))
-    story.append(Paragraph("SECURITY OPERATIONS CENTER (SOC) CAPSTONE PROJECT", ParagraphStyle('SubHeader', fontName='Helvetica-Bold', fontSize=10, textColor=accent_color, alignment=1, spaceAfter=15)))
+    # =========================================================================
+    # 1. COVER PAGE
+    # =========================================================================
+    story.append(Spacer(1, 25))
+    story.append(Paragraph("SECURITY OPERATIONS CENTER (SOC) RESEARCH REPORT", ParagraphStyle('SubHeader', fontName='Helvetica-Bold', fontSize=10, textColor=accent_color, alignment=1, spaceAfter=10)))
     story.append(Paragraph("Design and Implementation of a Wazuh-Based SOC Home Lab for Attack Detection and Log Analysis", title_style))
-    story.append(Paragraph("A Comprehensive Technical Investigation into Endpoint Telemetry, eBPF Kernel Monitoring, Multi-Vector Cyber Attack Detection, and SIEM Alert Correlation", subtitle_style))
-    story.append(HRFlowable(width="60%", thickness=2, color=accent_color, spaceBefore=10, spaceAfter=30))
+    story.append(Paragraph("Comprehensive Technical Investigation into Multi-Platform Telemetry, eBPF Kernel Monitoring, Cyber Attack Detection Engineering, and SIEM Log Analysis", subtitle_style))
+    story.append(HRFlowable(width="70%", thickness=2, color=accent_color, spaceBefore=5, spaceAfter=20))
 
     meta_data = [
-        [Paragraph("<b>Author / Researcher:</b>", body_style), Paragraph("Natto Muni Chakma", body_style)],
-        [Paragraph("<b>Degree Program:</b>", body_style), Paragraph("B.Tech in Computer Science and Engineering", body_style)],
+        [Paragraph("<b>Author & Researcher:</b>", body_style), Paragraph("Natto Muni Chakma", body_style)],
+        [Paragraph("<b>Academic Department:</b>", body_style), Paragraph("Computer Science and Engineering", body_style)],
         [Paragraph("<b>Institution:</b>", body_style), Paragraph("Andhra University College of Engineering", body_style)],
-        [Paragraph("<b>Domain Specialization:</b>", body_style), Paragraph("Cybersecurity, SIEM, SOC Operations, Threat Detection", body_style)],
-        [Paragraph("<b>Core Technologies:</b>", body_style), Paragraph("Wazuh 4.x, Microsoft Sysmon (Win/Linux), VirtualBox, Kali Linux", body_style)],
-        [Paragraph("<b>Repository:</b>", body_style), Paragraph("https://github.com/NATTOMR/Design-and-Implementation-of-a-Wazuh-Based-SOC-Home-Lab-for-Attack-Detection-and-Log-Analysis", body_style)],
-        [Paragraph("<b>Date of Submission:</b>", body_style), Paragraph("August 2026", body_style)]
+        [Paragraph("<b>Specialization:</b>", body_style), Paragraph("Cybersecurity, SOC Operations, SIEM Architecture, Threat Hunting", body_style)],
+        [Paragraph("<b>Platform Stack:</b>", body_style), Paragraph("Wazuh 4.x (Manager/Indexer/Dashboard), Microsoft Sysmon (Windows & Linux eBPF)", body_style)],
+        [Paragraph("<b>Virtualization:</b>", body_style), Paragraph("Oracle VirtualBox Isolated NAT Network (10.0.2.0/24 Subnet)", body_style)],
+        [Paragraph("<b>Repository URL:</b>", body_style), Paragraph("https://github.com/NATTOMR/Design-and-Implementation-of-a-Wazuh-Based-SOC-Home-Lab-for-Attack-Detection-and-Log-Analysis", body_style)],
+        [Paragraph("<b>Date of Publication:</b>", body_style), Paragraph("August 2026", body_style)]
     ]
-    t_meta = Table(meta_data, colWidths=[160, 320])
+    t_meta = Table(meta_data, colWidths=[150, 354])
     t_meta.setStyle(TableStyle([
         ('BACKGROUND', (0,0), (-1,-1), bg_light),
         ('BOX', (0,0), (-1,-1), 1, border_color),
         ('INNERGRID', (0,0), (-1,-1), 0.5, border_color),
-        ('TOPPADDING', (0,0), (-1,-1), 6),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 6),
-        ('LEFTPADDING', (0,0), (-1,-1), 10),
-        ('RIGHTPADDING', (0,0), (-1,-1), 10),
+        ('TOPPADDING', (0,0), (-1,-1), 5),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 5),
+        ('LEFTPADDING', (0,0), (-1,-1), 8),
+        ('RIGHTPADDING', (0,0), (-1,-1), 8),
     ]))
     story.append(t_meta)
 
-    story.append(Spacer(1, 40))
+    story.append(Spacer(1, 20))
     abstract_box = [
-        [Paragraph("<b>EXECUTIVE ABSTRACT:</b> This research report details the architectural design, deployment, and validation of an enterprise-grade Security Operations Center (SOC) home laboratory. Built entirely on open-source and standard enterprise security platforms—primarily the Wazuh SIEM ecosystem integrated with Microsoft Sysmon on Windows and eBPF-based Sysmon for Linux—this project proves end-to-end detection engineering. Multiple cyberattack scenarios (network reconnaissance, SSH/RDP brute-force, unauthorized PowerShell execution, and persistence techniques) were simulated via Kali Linux and detected in real-time, resulting in over 11,000+ telemetry events and actionable alerts mapped against the MITRE ATT&CK framework.", callout_style)]
+        [Paragraph("<b>EXECUTIVE ABSTRACT:</b><br/>"
+                   "This capstone report documents the architecture, deployment, offensive validation, and defensive detection engineering of a robust Security Operations Center (SOC) home laboratory. Utilizing the open-source Wazuh SIEM ecosystem integrated with Microsoft Sysmon for Windows and eBPF-driven Sysmon for Linux, this environment achieves comprehensive visibility across host process lifecycles, network sockets, user authentication, and system configurations. Multiple real-world attack vectors (Nmap network reconnaissance, Hydra brute-force authentication, PowerShell execution, and unauthorized privileged commands) were executed from Kali Linux and correlated in real time. Over <b>12,600+ telemetry events</b> were successfully collected, categorized by custom decoders/rules, and mapped against the MITRE ATT&CK enterprise matrix.", callout_style)]
     ]
-    t_abs = Table(abstract_box, colWidths=[500])
+    t_abs = Table(abstract_box, colWidths=[504])
     t_abs.setStyle(TableStyle([
         ('BACKGROUND', (0,0), (-1,-1), colors.HexColor("#F1F5F9")),
         ('BOX', (0,0), (-1,-1), 1, colors.HexColor("#94A3B8")),
-        ('TOPPADDING', (0,0), (-1,-1), 10),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 10),
-        ('LEFTPADDING', (0,0), (-1,-1), 12),
-        ('RIGHTPADDING', (0,0), (-1,-1), 12),
+        ('TOPPADDING', (0,0), (-1,-1), 8),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 8),
+        ('LEFTPADDING', (0,0), (-1,-1), 10),
+        ('RIGHTPADDING', (0,0), (-1,-1), 10),
     ]))
     story.append(t_abs)
 
     story.append(PageBreak())
 
-    # ==========================================
-    # CHAPTER 1: INTRODUCTION & PROJECT SCOPE
-    # ==========================================
-    story.append(Paragraph("1. Introduction & Project Scope", h1_style))
-    story.append(Paragraph("Modern enterprise cyber defense relies heavily on Security Information and Event Management (SIEM) solutions coupled with Security Operations Center (SOC) workflows. As cyber threats increase in stealth and sophistication, traditional signature-based antiviruses fail to provide sufficient visibility into advanced threat actor behavior, fileless attacks, and lateral movement.", body_style))
-    story.append(Paragraph("The primary aim of this capstone project is to engineer an enterprise-grade, cost-effective SOC Home Lab. By deploying Wazuh as the centralized SIEM/XDR platform alongside deep kernel telemetry collectors (Microsoft Sysmon and Sysmon for Linux), this lab bridges theoretical cybersecurity knowledge with practical offensive and defensive capabilities.", body_style))
+    # =========================================================================
+    # 2. CHAPTER 1: INTRODUCTION & PROJECT SCOPE
+    # =========================================================================
+    story.append(Paragraph("1. Introduction, Objectives & Problem Statement", h1_style))
+    story.append(Paragraph("In modern enterprise IT environments, security visibility is often severely compromised by fragmented logging mechanisms, high alert fatigue, and lack of host-level process context. Standard operating system event logs (such as generic Windows Security Events or standard Linux syslogs) typically record high-level authentication summaries without providing granular process lineage (Parent Process ID, command-line arguments, process GUIDs, or binary hashes).", body_style))
+    story.append(Paragraph("To address these challenges, this project implements a practical, cost-effective Security Operations Center (SOC) environment that unifies:", body_style))
+    story.append(Paragraph("• <b>Centralized SIEM Management:</b> Wazuh Manager for log ingestion, decoder parsing, and alert correlation.", bullet_style))
+    story.append(Paragraph("• <b>High-Performance Indexing:</b> Wazuh Indexer (OpenSearch) for multi-field search and aggregate analytical dashboards.", bullet_style))
+    story.append(Paragraph("• <b>Deep Windows Telemetry:</b> Microsoft Sysmon capturing process creation, network bindings, and registry modifications.", bullet_style))
+    story.append(Paragraph("• <b>Kernel-Level Linux Telemetry:</b> Sysmon for Linux (`sysmonforlinux`) leveraging eBPF tracepoints without kernel instability.", bullet_style))
+    story.append(Paragraph("• <b>Empirical Threat Validation:</b> Controlled attack simulations from Kali Linux to test and tune detection rules.", bullet_style))
 
-    story.append(Paragraph("Key Objectives", h2_style))
-    story.append(Paragraph("• <b>Architecture Design:</b> Establish an isolated, multi-node virtual network using Oracle VirtualBox NAT Networking.", bullet_style))
-    story.append(Paragraph("• <b>SIEM & XDR Deployment:</b> Install, configure, and harden Ubuntu Server 24.04 hosting Wazuh Manager, Wazuh Indexer (OpenSearch), and Wazuh Dashboard.", bullet_style))
-    story.append(Paragraph("• <b>Endpoint Telemetry Integration:</b> Deploy Wazuh Agents with Microsoft Sysmon on Windows 11 and eBPF-driven Sysmon for Linux.", bullet_style))
-    story.append(Paragraph("• <b>Offensive Attack Simulation:</b> Execute realistic multi-stage cyber attacks from a Kali Linux adversary node.", bullet_style))
-    story.append(Paragraph("• <b>Detection Engineering:</b> Author custom decoders and XML rules, validating detection triggers against MITRE ATT&CK tactics.", bullet_style))
+    story.append(Spacer(1, 5))
 
-    story.append(Spacer(1, 10))
-
-    # ==========================================
-    # CHAPTER 2: LAB ARCHITECTURE & ENVIRONMENT SPECIFICATIONS
-    # ==========================================
-    story.append(Paragraph("2. Lab Architecture & Node Specifications", h1_style))
-    story.append(Paragraph("The lab is structured inside an isolated VirtualBox NAT Network (10.0.2.0/24 subnet), preventing accidental external network leakage while enabling unrestricted inter-node communication for realistic attack traffic and encrypted log forwarding.", body_style))
+    # =========================================================================
+    # 3. CHAPTER 2: LAB ARCHITECTURE & TOPOLOGY
+    # =========================================================================
+    story.append(Paragraph("2. Lab Architecture & Network Topology", h1_style))
+    story.append(Paragraph("The entire laboratory is virtualized on Oracle VirtualBox using an isolated NAT Network (`10.0.2.0/24`), enabling high-speed communication while isolating traffic from the production home network.", body_style))
 
     vm_specs = [
-        [Paragraph("Node / Hostname", table_header), Paragraph("Operating System", table_header), Paragraph("Role in SOC Lab", table_header), Paragraph("Assigned IP", table_header), Paragraph("Resources", table_header)],
-        [Paragraph("<b>Wazuh Server</b>", table_cell), Paragraph("Ubuntu Server 24.04 LTS", table_cell), Paragraph("SIEM Manager, Indexer & Dashboard", table_cell), Paragraph("10.0.2.15", table_cell), Paragraph("4 GB RAM, 2 vCPU, 50 GB Disk", table_cell)],
-        [Paragraph("<b>Victim Endpoint</b>", table_cell), Paragraph("Windows 11 Pro (64-bit)", table_cell), Paragraph("Primary Monitored Workstation", table_cell), Paragraph("10.0.2.20 / DHCP", table_cell), Paragraph("4 GB RAM, 2 vCPU, 60 GB Disk", table_cell)],
-        [Paragraph("<b>Attacker Node</b>", table_cell), Paragraph("Kali Linux (Rolling)", table_cell), Paragraph("Offensive Attack & Recon Simulation", table_cell), Paragraph("10.0.2.30 / DHCP", table_cell), Paragraph("2 GB RAM, 2 vCPU, 30 GB Disk", table_cell)],
-        [Paragraph("<b>Host Machine</b>", table_cell), Paragraph("Windows 11 Pro (Physical)", table_cell), Paragraph("Hypervisor Host (Oracle VirtualBox)", table_cell), Paragraph("Host Gateway", table_cell), Paragraph("16 GB RAM, Intel Core", table_cell)]
+        [Paragraph("Host / Node", table_header), Paragraph("Operating System", table_header), Paragraph("IP Address", table_header), Paragraph("Hardware Specs", table_header), Paragraph("Primary Role in Lab", table_header)],
+        [Paragraph("<b>Wazuh Server</b>", table_cell_bold), Paragraph("Ubuntu Server 24.04 LTS", table_cell), Paragraph("10.0.2.15", table_cell), Paragraph("4 GB RAM, 2 vCPU, 50 GB", table_cell), Paragraph("SIEM Manager, Indexer & Dashboard", table_cell)],
+        [Paragraph("<b>Victim Endpoint</b>", table_cell_bold), Paragraph("Windows 11 Pro (64-bit)", table_cell), Paragraph("10.0.2.20", table_cell), Paragraph("4 GB RAM, 2 vCPU, 60 GB", table_cell), Paragraph("Monitored Endpoint (Agent + Sysmon)", table_cell)],
+        [Paragraph("<b>Attacker Node</b>", table_cell_bold), Paragraph("Kali Linux (Rolling)", table_cell), Paragraph("10.0.2.30", table_cell), Paragraph("2 GB RAM, 2 vCPU, 30 GB", table_cell), Paragraph("Offensive Recon & Attack Platform", table_cell)],
+        [Paragraph("<b>Host Machine</b>", table_cell_bold), Paragraph("Windows 11 Physical", table_cell), Paragraph("Gateway / Host", table_cell), Paragraph("16 GB RAM, Core i7", table_cell), Paragraph("VirtualBox Hypervisor Host", table_cell)]
     ]
-    t_vm = Table(vm_specs, colWidths=[90, 110, 140, 75, 85])
+    t_vm = Table(vm_specs, colWidths=[80, 105, 65, 110, 144])
     t_vm.setStyle(TableStyle([
         ('BACKGROUND', (0,0), (-1,0), dark_blue),
         ('ALIGN', (0,0), (-1,-1), 'LEFT'),
         ('VALIGN', (0,0), (-1,-1), 'TOP'),
         ('ROWBACKGROUNDS', (0,1), (-1,-1), [bg_light, colors.white]),
         ('GRID', (0,0), (-1,-1), 0.5, border_color),
-        ('TOPPADDING', (0,0), (-1,-1), 4),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 4),
+        ('TOPPADDING', (0,0), (-1,-1), 3),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 3),
     ]))
     story.append(t_vm)
+    story.append(Spacer(1, 8))
 
-    story.append(Spacer(1, 10))
-
-    # ==========================================
-    # CHAPTER 3: WAZUH SIEM PLATFORM DEPLOYMENT
-    # ==========================================
-    story.append(Paragraph("3. Wazuh SIEM Platform Deployment & Services", h1_style))
-    story.append(Paragraph("Wazuh operates as an all-in-one centralized architecture comprising three critical microservices:", body_style))
-    story.append(Paragraph("1. <b>Wazuh Manager:</b> Receives encrypted telemetry from agent daemons on TCP port 1514, handles agent registration on port 1515, executes real-time decoder matching, and processes the correlation rule engine.", body_style))
-    story.append(Paragraph("2. <b>Wazuh Indexer:</b> A high-performance, distributed OpenSearch engine providing scalable document indexing, document storage, and multi-field querying across millions of security events.", body_style))
-    story.append(Paragraph("3. <b>Wazuh Dashboard:</b> A rich React-based web user interface operating over HTTPS (port 443) that provides interactive visual analytics, threat hunting panels, and compliance reporting.", body_style))
-
-    story.append(Paragraph("Service Verification & Health Checks", h2_style))
-    story.append(Paragraph("Following deployment, all system daemons were verified using standard systemd utilities, confirming zero runtime errors across `wazuh-manager`, `wazuh-indexer`, and `wazuh-dashboard`.", body_style))
+    story.extend(create_image_box("screenshots/02-virtualbox-home.png", "Oracle VirtualBox Environment Hosting Ubuntu Server, Windows 11, and Kali Linux", 500, 200, caption_style))
 
     story.append(PageBreak())
 
-    # ==========================================
-    # CHAPTER 4: ENDPOINT TELEMETRY & SYSMON INTEGRATION
-    # ==========================================
+    # =========================================================================
+    # 4. CHAPTER 3: WAZUH SIEM DEPLOYMENT & DASHBOARD VERIFICATION
+    # =========================================================================
+    story.append(Paragraph("3. Wazuh SIEM Deployment & Dashboard Architecture", h1_style))
+    story.append(Paragraph("The Wazuh SIEM platform operates through three tightly coupled subsystems on the Ubuntu 24.04 host:", body_style))
+    story.append(Paragraph("1. <b>Wazuh Manager (`wazuh-manager`):</b> Listens on TCP port 1514 for TLS-encrypted agent communication and port 1515 for dynamic agent registration. Decodes incoming logs and matches them against XML correlation rules in real time.", body_style))
+    story.append(Paragraph("2. <b>Wazuh Indexer (`wazuh-indexer`):</b> Powered by OpenSearch, it indexes incoming security events into structured document shards (`wazuh-alerts-*` and `wazuh-archives-*`), supporting instant full-text and field-specific filtering.", body_style))
+    story.append(Paragraph("3. <b>Wazuh Dashboard (`wazuh-dashboard`):</b> A modern web interface running over HTTPS (TCP port 443) providing Security Events overview, MITRE ATT&CK visualization, Threat Hunting panels, and Regulatory Compliance reports.", body_style))
+
+    story.extend(create_image_box("screenshots/13-wazuh-dashboard-home.png", "Wazuh Dashboard Overview Presenting Real-Time Security Events and System Status", 500, 210, caption_style))
+
+    story.extend(create_image_box("screenshots/19-active-agents.png", "Wazuh Manager Active Multi-Platform Agents Summary (Windows 11 and Kali Linux)", 500, 190, caption_style))
+
+    story.append(PageBreak())
+
+    # =========================================================================
+    # 5. CHAPTER 4: ENDPOINT TELEMETRY & SYSMON INTEGRATION
+    # =========================================================================
     story.append(Paragraph("4. Endpoint Telemetry & Sysmon Integration (Windows & Linux)", h1_style))
-    story.append(Paragraph("Default operating system event logging often fails to record critical process lineage, command-line arguments, and socket-to-process bindings. To bridge this visibility gap, Microsoft Sysmon was deployed across both Windows and Linux endpoints.", body_style))
+    story.append(Paragraph("Microsoft Sysmon provides high-fidelity endpoint activity monitoring by hooking deep system routines. In this project, Sysmon was deployed on both Windows 11 and Linux to establish unified, cross-platform telemetry.", body_style))
 
-    story.append(Paragraph("Windows 11 Sysmon Architecture", h2_style))
-    story.append(Paragraph("Sysmon operates as a Windows system service and device driver that remains resident across system boots. The Wazuh Agent configuration (`ossec.conf`) was updated to subscribe directly to the `Microsoft-Windows-Sysmon/Operational` event channel using the native Windows Event Log API.", body_style))
-
-    story.append(Paragraph("Sysmon for Linux (eBPF) Architecture", h2_style))
-    story.append(Paragraph("On Linux endpoints, `sysmonforlinux` utilizes extended Berkeley Packet Filter (eBPF) programs injected into kernel tracepoints. This enables non-intrusive, microsecond-latency capture of process lifecycle events and socket connections without requiring kernel modifications. Sysmon events stream directly into `/var/log/syslog` and are ingested by the Linux Wazuh Agent.", body_style))
-
-    sysmon_events = [
-        [Paragraph("Event ID", table_header), Paragraph("Event Name", table_header), Paragraph("Platform", table_header), Paragraph("Operational SOC Value & Detection Coverage", table_header)],
-        [Paragraph("<b>1</b>", table_cell), Paragraph("Process Creation", table_cell), Paragraph("Win & Linux", table_cell), Paragraph("Captures full CLI arguments, ParentProcessId, ProcessGuid, hashes, user context.", table_cell)],
-        [Paragraph("<b>3</b>", table_cell), Paragraph("Network Connection", table_cell), Paragraph("Win & Linux", table_cell), Paragraph("Identifies socket bindings, destination IPs, ports, and initiating binary.", table_cell)],
-        [Paragraph("<b>5</b>", table_cell), Paragraph("Process Terminated", table_cell), Paragraph("Win & Linux", table_cell), Paragraph("Monitors process lifecycle and malware termination behavior.", table_cell)],
-        [Paragraph("<b>9</b>", table_cell), Paragraph("Raw Access Read", table_cell), Paragraph("Linux", table_cell), Paragraph("Detects direct device access (`/dev/sda`, memory scraping, credential dumps).", table_cell)],
-        [Paragraph("<b>11</b>", table_cell), Paragraph("File Create", table_cell), Paragraph("Win & Linux", table_cell), Paragraph("Detects dropped malware payloads in `/tmp/`, `C:\\Windows\\Temp`, startup folders.", table_cell)],
-        [Paragraph("<b>12/13</b>", table_cell), Paragraph("Registry Events", table_cell), Paragraph("Windows", table_cell), Paragraph("Monitors Run/RunOnce persistence keys and security policy tampering.", table_cell)],
-        [Paragraph("<b>23</b>", table_cell), Paragraph("File Delete", table_cell), Paragraph("Win & Linux", table_cell), Paragraph("Tracks anti-forensic log wiping, ransomware file replacements.", table_cell)]
+    sysmon_table = [
+        [Paragraph("Event ID", table_header), Paragraph("Event Name", table_header), Paragraph("Target OS", table_header), Paragraph("Operational SOC Value & Threat Coverage", table_header)],
+        [Paragraph("<b>1</b>", table_cell_bold), Paragraph("Process Creation", table_cell), Paragraph("Win & Linux", table_cell), Paragraph("Captures full CLI arguments, ParentProcessId, ProcessGuid, hashes, user context.", table_cell)],
+        [Paragraph("<b>3</b>", table_cell_bold), Paragraph("Network Connect", table_cell), Paragraph("Win & Linux", table_cell), Paragraph("Records source/destination IP, port, initiating binary, and protocol (TCP/UDP).", table_cell)],
+        [Paragraph("<b>5</b>", table_cell_bold), Paragraph("Process Terminate", table_cell), Paragraph("Win & Linux", table_cell), Paragraph("Tracks process lifecycle duration and malware termination behaviors.", table_cell)],
+        [Paragraph("<b>9</b>", table_cell_bold), Paragraph("Raw Access Read", table_cell), Paragraph("Linux", table_cell), Paragraph("Detects direct device access (`/dev/sda`, memory scraping, credential theft).", table_cell)],
+        [Paragraph("<b>11</b>", table_cell_bold), Paragraph("File Create", table_cell), Paragraph("Win & Linux", table_cell), Paragraph("Detects dropper payloads in `/tmp/`, `C:\\Windows\\Temp`, and startup directories.", table_cell)],
+        [Paragraph("<b>12/13</b>", table_cell_bold), Paragraph("Registry Event", table_cell), Paragraph("Windows", table_cell), Paragraph("Monitors Run/RunOnce persistence keys and defensive software disablement.", table_cell)],
+        [Paragraph("<b>23</b>", table_cell_bold), Paragraph("File Delete", table_cell), Paragraph("Win & Linux", table_cell), Paragraph("Tracks anti-forensic evidence destruction and ransomware file wiping.", table_cell)]
     ]
-    t_sysmon = Table(sysmon_events, colWidths=[45, 105, 70, 280])
-    t_sysmon.setStyle(TableStyle([
+    t_sys = Table(sysmon_table, colWidths=[45, 95, 65, 299])
+    t_sys.setStyle(TableStyle([
         ('BACKGROUND', (0,0), (-1,0), dark_blue),
         ('ALIGN', (0,0), (-1,-1), 'LEFT'),
         ('VALIGN', (0,0), (-1,-1), 'TOP'),
         ('ROWBACKGROUNDS', (0,1), (-1,-1), [bg_light, colors.white]),
         ('GRID', (0,0), (-1,-1), 0.5, border_color),
-        ('TOPPADDING', (0,0), (-1,-1), 3),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 3),
+        ('TOPPADDING', (0,0), (-1,-1), 2.5),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 2.5),
     ]))
-    story.append(t_sysmon)
+    story.append(t_sys)
+    story.append(Spacer(1, 8))
 
-    story.append(Spacer(1, 10))
+    story.extend(create_image_box("screenshots/21-sysmon-installation.png", "Sysmon Installation on Windows 11 via PowerShell with Schema Validation", 500, 110, caption_style))
 
-    # ==========================================
-    # CHAPTER 5: OFFENSIVE ATTACK SIMULATIONS
-    # ==========================================
-    story.append(Paragraph("5. Offensive Attack Simulations & Threat Scenarios", h1_style))
-    story.append(Paragraph("To rigorously validate the detection pipeline, multiple offensive security exercises were launched against the lab nodes using Kali Linux:", body_style))
-
-    attacks_data = [
-        [Paragraph("Scenario #", table_header), Paragraph("Attack Technique", table_header), Paragraph("Tool / Command", table_header), Paragraph("Target Node", table_header), Paragraph("Observed Wazuh Detection", table_header)],
-        [Paragraph("<b>AS-01</b>", table_cell), Paragraph("Host Discovery & TCP Port Scan", table_cell), Paragraph("`nmap -sS -sV -O 10.0.2.20`", table_cell), Paragraph("Windows 11", table_cell), Paragraph("Nmap SYN scan alert & multi-port connection spike", table_cell)],
-        [Paragraph("<b>AS-02</b>", table_cell), Paragraph("RDP Authentication Brute Force", table_cell), Paragraph("`hydra -l admin -P wordlist rdp://`", table_cell), Paragraph("Windows 11", table_cell), Paragraph("Windows Event 4625 (Rule 18152: Logon Failure Threshold)", table_cell)],
-        [Paragraph("<b>AS-03</b>", table_cell), Paragraph("Suspicious PowerShell CLI Execution", table_cell), Paragraph("`powershell -enc ... -ExecutionPolicy Bypass`", table_cell), Paragraph("Windows 11", table_cell), Paragraph("Sysmon Event 1 & Custom Rule for Encoded PowerShell", table_cell)],
-        [Paragraph("<b>AS-04</b>", table_cell), Paragraph("Linux Sudo & Privilege Escalation", table_cell), Paragraph("`sudo su` & unauthorized user switches", table_cell), Paragraph("Kali / Linux", table_cell), Paragraph("Rule 5502: PAM Login session closed / authentication alert", table_cell)],
-        [Paragraph("<b>AS-05</b>", table_cell), Paragraph("C2 Network Beacon Simulation", table_cell), Paragraph("`nc -zv 10.0.2.15 4444` / egress tests", table_cell), Paragraph("Linux Host", table_cell), Paragraph("Sysmon Event 3 & Process Terminate Event 5 ingestion", table_cell)]
-    ]
-    t_attacks = Table(attacks_data, colWidths=[50, 110, 125, 75, 140])
-    t_attacks.setStyle(TableStyle([
-        ('BACKGROUND', (0,0), (-1,0), dark_blue),
-        ('ALIGN', (0,0), (-1,-1), 'LEFT'),
-        ('VALIGN', (0,0), (-1,-1), 'TOP'),
-        ('ROWBACKGROUNDS', (0,1), (-1,-1), [bg_light, colors.white]),
-        ('GRID', (0,0), (-1,-1), 0.5, border_color),
-        ('TOPPADDING', (0,0), (-1,-1), 3),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 3),
-    ]))
-    story.append(t_attacks)
+    story.extend(create_image_box("screenshots/23-event-viewer-sysmon.png", "Windows Event Viewer Displaying Ingested Sysmon Operational Logs (Event ID 1)", 500, 200, caption_style))
 
     story.append(PageBreak())
 
-    # ==========================================
-    # CHAPTER 6: DETECTION ENGINEERING & MITRE ATT&CK
-    # ==========================================
-    story.append(Paragraph("6. Detection Engineering & MITRE ATT&CK Mapping", h1_style))
-    story.append(Paragraph("Wazuh utilizes an XML-based ruleset architecture featuring over 3,000 built-in rules organized into severity levels ranging from Level 0 (Ignored) to Level 15 (Critical Alert).", body_style))
+    # =========================================================================
+    # 6. CHAPTER 5: CRITICAL COMMAND REFERENCE ACROSS ALL NODES
+    # =========================================================================
+    story.append(Paragraph("5. Critical Command Reference Across All Lab Nodes", h1_style))
+    story.append(Paragraph("To ensure operational efficiency, reproducible administration, and rapid troubleshooting, the most critical commands executed across each lab machine are documented below:", body_style))
 
-    story.append(Paragraph("Custom Detection Rules Implemented (`local_rules.xml`)", h2_style))
-    story.append(Paragraph("To augment built-in coverage, specialized local rules were authored to detect advanced adversarial tactics:", body_style))
+    # Ubuntu / Wazuh Manager Commands
+    story.append(Paragraph("A. Wazuh Server / Ubuntu Commands (Management, Ingestion & Analysis)", h2_style))
+    ubuntu_cmds = [
+        [Paragraph("Operation Category", table_header), Paragraph("Command Line Syntax", table_header), Paragraph("Operational Function & Purpose", table_header)],
+        [Paragraph("<b>Service Control</b>", table_cell_bold), Paragraph("`sudo systemctl status wazuh-manager wazuh-indexer wazuh-dashboard`", table_cell_code), Paragraph("Verify status of all core SIEM daemons.", table_cell)],
+        [Paragraph("<b>Agent Management</b>", table_cell_bold), Paragraph("`sudo /var/ossec/bin/agent_control -l`", table_cell_code), Paragraph("List all registered, active, and disconnected agents.", table_cell)],
+        [Paragraph("<b>Agent Info</b>", table_cell_bold), Paragraph("`sudo /var/ossec/bin/agent_control -i 003`", table_cell_code), Paragraph("Query detailed operating telemetry for agent ID 003.", table_cell)],
+        [Paragraph("<b>Rule Testing</b>", table_cell_bold), Paragraph("`sudo /var/ossec/bin/wazuh-logtest`", table_cell_code), Paragraph("Interactive log decoder and rule matching simulator.", table_cell)],
+        [Paragraph("<b>Live Alerts Stream</b>", table_cell_bold), Paragraph("`sudo tail -f /var/ossec/logs/alerts/alerts.json`", table_cell_code), Paragraph("Stream raw JSON alert output as events trigger.", table_cell)],
+        [Paragraph("<b>Firewall Rules</b>", table_cell_bold), Paragraph("`sudo ufw allow 1514/tcp && sudo ufw allow 1515/tcp && sudo ufw allow 443/tcp`", table_cell_code), Paragraph("Open agent log ingestion, registration & web UI ports.", table_cell)],
+        [Paragraph("<b>Manager Logs</b>", table_cell_bold), Paragraph("`sudo tail -n 100 /var/ossec/logs/ossec.log`", table_cell_code), Paragraph("Inspect internal manager errors and parsing issues.", table_cell)]
+    ]
+    t_ub = Table(ubuntu_cmds, colWidths=[100, 240, 164])
+    t_ub.setStyle(TableStyle([
+        ('BACKGROUND', (0,0), (-1,0), dark_blue),
+        ('ROWBACKGROUNDS', (0,1), (-1,-1), [bg_light, colors.white]),
+        ('GRID', (0,0), (-1,-1), 0.5, border_color),
+        ('TOPPADDING', (0,0), (-1,-1), 2.5),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 2.5),
+    ]))
+    story.append(t_ub)
+    story.append(Spacer(1, 6))
 
-    rule_code = """<group name="custom_rules,sysmon,threat_hunting">
-  <!-- Rule 100002: Encoded or Suspicious PowerShell Execution -->
+    # Windows 11 Commands
+    story.append(Paragraph("B. Windows 11 Endpoint Commands (PowerShell / CMD as Administrator)", h2_style))
+    win_cmds = [
+        [Paragraph("Operation Category", table_header), Paragraph("Command Line Syntax", table_header), Paragraph("Operational Function & Purpose", table_header)],
+        [Paragraph("<b>Sysmon Install</b>", table_cell_bold), Paragraph("`cd C:\\Sysmon; .\\Sysmon64.exe -accepteula -i sysmonconfig.xml`", table_cell_code), Paragraph("Install and activate Sysmon system service with XML config.", table_cell)],
+        [Paragraph("<b>Sysmon Config Update</b>", table_cell_bold), Paragraph("`.\\Sysmon64.exe -c sysmonconfig.xml`", table_cell_code), Paragraph("Reload updated Sysmon XML filtering configuration.", table_cell)],
+        [Paragraph("<b>Sysmon Service Check</b>", table_cell_bold), Paragraph("`Get-Service Sysmon64`", table_cell_code), Paragraph("Verify Sysmon service status is in 'Running' state.", table_cell)],
+        [Paragraph("<b>Wazuh Service Control</b>", table_cell_bold), Paragraph("`NET STOP WazuhSvc; NET START WazuhSvc`", table_cell_code), Paragraph("Restart Windows Wazuh Agent service to reload configuration.", table_cell)],
+        [Paragraph("<b>Query Sysmon Logs</b>", table_cell_bold), Paragraph("`Get-WinEvent -LogName 'Microsoft-Windows-Sysmon/Operational' -MaxEvents 5`", table_cell_code), Paragraph("Read recent local Sysmon events directly via PowerShell.", table_cell)],
+        [Paragraph("<b>Query Failed Logons</b>", table_cell_bold), Paragraph("`Get-WinEvent -FilterHashtable @{LogName='Security';ID=4625}`", table_cell_code), Paragraph("Inspect Windows Event 4625 failed login entries.", table_cell)],
+        [Paragraph("<b>Connectivity Test</b>", table_cell_bold), Paragraph("`Test-NetConnection -ComputerName 10.0.2.15 -Port 1514`", table_cell_code), Paragraph("Test TCP port reachability to the Wazuh Manager.", table_cell)]
+    ]
+    t_win = Table(win_cmds, colWidths=[105, 235, 164])
+    t_win.setStyle(TableStyle([
+        ('BACKGROUND', (0,0), (-1,0), dark_blue),
+        ('ROWBACKGROUNDS', (0,1), (-1,-1), [bg_light, colors.white]),
+        ('GRID', (0,0), (-1,-1), 0.5, border_color),
+        ('TOPPADDING', (0,0), (-1,-1), 2.5),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 2.5),
+    ]))
+    story.append(t_win)
+    story.append(Spacer(1, 6))
+
+    # Kali Linux Commands
+    story.append(Paragraph("C. Kali Linux Attacker & Linux Telemetry Commands", h2_style))
+    kali_cmds = [
+        [Paragraph("Attack Phase / Role", table_header), Paragraph("Command Line Syntax", table_header), Paragraph("Offensive & Defensive Objective", table_header)],
+        [Paragraph("<b>Host Discovery</b>", table_cell_bold), Paragraph("`nmap -sn 10.0.2.0/24`", table_cell_code), Paragraph("Perform ICMP/ARP ping sweep to discover live subnet hosts.", table_cell)],
+        [Paragraph("<b>TCP Port & OS Scan</b>", table_cell_bold), Paragraph("`nmap -sS -sV -O -T4 10.0.2.20`", table_cell_code), Paragraph("SYN stealth scan to enumerate open ports, services, and OS.", table_cell)],
+        [Paragraph("<b>Aggressive Scan</b>", table_cell_bold), Paragraph("`nmap -A -p 80,443,3389 10.0.2.20`", table_cell_code), Paragraph("Execute script scans, traceroute, and version detection.", table_cell)],
+        [Paragraph("<b>RDP Brute Force</b>", table_cell_bold), Paragraph("`hydra -l administrator -P rockyou.txt rdp://10.0.2.20`", table_cell_code), Paragraph("Simulate high-frequency credential stuffing against Windows.", table_cell)],
+        [Paragraph("<b>Sysmon Linux Service</b>", table_cell_bold), Paragraph("`sudo sysmon -accepteula -i /etc/sysmon/sysmonconfig.xml`", table_cell_code), Paragraph("Activate eBPF kernel telemetry collector on Linux.", table_cell)],
+        [Paragraph("<b>Sysmon Linux Logs</b>", table_cell_bold), Paragraph("`sudo journalctl -u sysmon -f` or `sudo tail -f /var/log/syslog`", table_cell_code), Paragraph("Stream live Linux Sysmon process and socket events.", table_cell)]
+    ]
+    t_kali = Table(kali_cmds, colWidths=[105, 235, 164])
+    t_kali.setStyle(TableStyle([
+        ('BACKGROUND', (0,0), (-1,0), dark_blue),
+        ('ROWBACKGROUNDS', (0,1), (-1,-1), [bg_light, colors.white]),
+        ('GRID', (0,0), (-1,-1), 0.5, border_color),
+        ('TOPPADDING', (0,0), (-1,-1), 2.5),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 2.5),
+    ]))
+    story.append(t_kali)
+
+    story.append(PageBreak())
+
+    # =========================================================================
+    # 7. CHAPTER 6: DETECTION ENGINEERING & RULE ANALYSIS
+    # =========================================================================
+    story.append(Paragraph("6. Detection Engineering & Custom Rule Authoring", h1_style))
+    story.append(Paragraph("Wazuh features a modular rules engine. To detect threats that evade standard signatures, custom rules were developed in `/var/ossec/etc/rules/local_rules.xml`:", body_style))
+
+    story.append(Paragraph("Implemented Custom Detection Rules (`local_rules.xml`)", h2_style))
+    
+    xml_rules_code = """<group name="custom_rules,sysmon,threat_hunting">
+  <!-- Rule 100001: Reconnaissance Port Scanning Detection -->
+  <rule id="100001" level="8" frequency="8" timeframe="10">
+    <if_matched_group>sysmon_network_connect</if_matched_group>
+    <same_source_ip />
+    <description>Potential Network Reconnaissance / Rapid Port Scan Detected</description>
+    <mitre><id>T1595.001</id></mitre>
+  </rule>
+
+  <!-- Rule 100002: Encoded PowerShell & Execution Policy Bypass -->
   <rule id="100002" level="10">
     <if_group>sysmon_process_create</if_group>
     <field name="win.eventdata.commandLine" type="pcre2">(?i)-enc|-encodedcommand|-exec.*bypass</field>
-    <description>Suspicious Encoded PowerShell Execution Detected on Endpoint</description>
+    <description>Suspicious Encoded or Obfuscated PowerShell CLI Execution</description>
     <mitre><id>T1059.001</id></mitre>
   </rule>
 
-  <!-- Rule 100003: Multiple Failed Logons / RDP Brute Force -->
+  <!-- Rule 100003: Multiple Logon Failures (Brute-Force Threshold) -->
   <rule id="100003" level="12" frequency="5" timeframe="60">
     <if_matched_sid>18152</if_matched_sid>
     <same_source_ip />
-    <description>Potential RDP / Windows Brute Force Attack in Progress</description>
+    <description>Potential RDP / Windows Authentication Brute-Force in Progress</description>
     <mitre><id>T1110.001</id></mitre>
   </rule>
 </group>"""
 
-    t_code = Table([[Paragraph(rule_code.replace("<", "&lt;").replace(">", "&gt;").replace("\n", "<br/>"), code_style)]], colWidths=[500])
-    t_code.setStyle(TableStyle([
-        ('BACKGROUND', (0,0), (-1,-1), colors.HexColor("#0F172A")),
-        ('BOX', (0,0), (-1,-1), 1, colors.HexColor("#334155")),
-        ('TOPPADDING', (0,0), (-1,-1), 8),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 8),
-        ('LEFTPADDING', (0,0), (-1,-1), 10),
-        ('RIGHTPADDING', (0,0), (-1,-1), 10),
-    ]))
-    story.append(t_code)
+    story.append(create_code_box(xml_rules_code, code_style))
+    story.append(Spacer(1, 8))
 
-    story.append(Paragraph("MITRE ATT&CK Framework Alignment", h2_style))
-    story.append(Paragraph("• <b>Reconnaissance (T1595):</b> Active scanning and port discovery detected via network connection frequency.", bullet_style))
-    story.append(Paragraph("• <b>Initial Access / Credential Access (T1110):</b> Password brute-force detected via Event 4625 rate analysis.", bullet_style))
-    story.append(Paragraph("• <b>Execution (T1059.001):</b> Command and Scripting Interpreter (PowerShell, bash, dash) captured by Sysmon Event ID 1.", bullet_style))
-    story.append(Paragraph("• <b>Persistence (T1547):</b> Boot or Logon Autostart Execution monitored via Windows Registry key monitoring.", bullet_style))
-    story.append(Paragraph("• <b>Defense Evasion (T1070):</b> Indicator Removal / File Deletion captured via Sysmon Event ID 23.", bullet_style))
-
-    story.append(Spacer(1, 10))
-
-    # ==========================================
-    # CHAPTER 7: THREAT HUNTING, INGESTION METRICS & RESULTS
-    # ==========================================
-    story.append(Paragraph("7. Ingestion Metrics, Threat Hunting & Analytical Results", h1_style))
-    story.append(Paragraph("During the evaluation window, the SOC Home Lab processed intensive event streams across Windows and Linux nodes, confirming high-throughput reliability without ingestion drops:", body_style))
-
-    metrics_data = [
-        [Paragraph("Telemetry Source", table_header), Paragraph("Agent Node", table_header), Paragraph("Total Events Ingested", table_header), Paragraph("Key Ingested Types", table_header), Paragraph("Alert Severity Levels", table_header)],
-        [Paragraph("<b>Sysmon for Linux (eBPF)</b>", table_cell), Paragraph("Kali Linux (004)", table_cell), Paragraph("<b>10,135+ Hits</b>", table_cell), Paragraph("Event ID 5, Event ID 1, Event ID 3", table_cell), Paragraph("Level 3 to Level 10", table_cell)],
-        [Paragraph("<b>Windows Sysmon & Events</b>", table_cell), Paragraph("Windows 11 (003)", table_cell), Paragraph("<b>1,427+ Hits</b>", table_cell), Paragraph("Event ID 1, 3, 4625, Registry, FIM", table_cell), Paragraph("Level 3 to Level 12", table_cell)],
-        [Paragraph("<b>Linux System & PAM Logs</b>", table_cell), Paragraph("Ubuntu / Kali", table_cell), Paragraph("<b>1,044+ Hits</b>", table_cell), Paragraph("Rule 5502, sudo sessions, sshd logs", table_cell), Paragraph("Level 3 to Level 7", table_cell)],
-        [Paragraph("<b>Total Lab Ingestion</b>", table_cell), Paragraph("All Multi-Nodes", table_cell), Paragraph("<b>12,600+ Events</b>", table_cell), Paragraph("Cross-platform telemetry correlation", table_cell), Paragraph("Unified SIEM Dashboard", table_cell)]
+    story.append(Paragraph("MITRE ATT&CK Matrix Mapping", h2_style))
+    mitre_data = [
+        [Paragraph("Tactic", table_header), Paragraph("Technique ID", table_header), Paragraph("Technique Name", table_header), Paragraph("Telemetry Source", table_header), Paragraph("Alert Rule Triggered", table_header)],
+        [Paragraph("Reconnaissance", table_cell_bold), Paragraph("T1595.001", table_cell), Paragraph("Port Scanning", table_cell), Paragraph("Sysmon Event ID 3", table_cell), Paragraph("Rule 100001 (Rapid Port Scan)", table_cell)],
+        [Paragraph("Credential Access", table_cell_bold), Paragraph("T1110.001", table_cell), Paragraph("Password Guessing", table_cell), Paragraph("Event ID 4625", table_cell), Paragraph("Rule 18152 & Rule 100003", table_cell)],
+        [Paragraph("Execution", table_cell_bold), Paragraph("T1059.001", table_cell), Paragraph("PowerShell CLI", table_cell), Paragraph("Sysmon Event ID 1", table_cell), Paragraph("Rule 100002 (Encoded CLI)", table_cell)],
+        [Paragraph("Persistence", table_cell_bold), Paragraph("T1547.001", table_cell), Paragraph("Registry Run Keys", table_cell), Paragraph("Sysmon Event 12/13", table_cell), Paragraph("Rule 100004 (Registry RunKey)", table_cell)],
+        [Paragraph("Defense Evasion", table_cell_bold), Paragraph("T1070.004", table_cell), Paragraph("File Deletion", table_cell), Paragraph("Sysmon Event ID 23", table_cell), Paragraph("Rule 100005 (File Deletion)", table_cell)]
     ]
-    t_metrics = Table(metrics_data, colWidths=[110, 85, 95, 120, 90])
-    t_metrics.setStyle(TableStyle([
+    t_mitre = Table(mitre_data, colWidths=[80, 75, 105, 110, 134])
+    t_mitre.setStyle(TableStyle([
         ('BACKGROUND', (0,0), (-1,0), dark_blue),
-        ('ALIGN', (0,0), (-1,-1), 'LEFT'),
-        ('VALIGN', (0,0), (-1,-1), 'TOP'),
         ('ROWBACKGROUNDS', (0,1), (-1,-1), [bg_light, colors.white]),
         ('GRID', (0,0), (-1,-1), 0.5, border_color),
-        ('TOPPADDING', (0,0), (-1,-1), 3),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 3),
+        ('TOPPADDING', (0,0), (-1,-1), 2.5),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 2.5),
     ]))
-    story.append(t_metrics)
+    story.append(t_mitre)
 
     story.append(PageBreak())
 
-    # ==========================================
-    # CHAPTER 8: OPERATIONAL TROUBLESHOOTING & HARDENING
-    # ==========================================
-    story.append(Paragraph("8. Operational Troubleshooting & Hardening", h1_style))
-    story.append(Paragraph("Real-world SOC deployments inevitably encounter communication roadblocks, agent disconnections, and parser bottlenecks. Key resolutions discovered during implementation include:", body_style))
+    # =========================================================================
+    # 8. CHAPTER 7: THREAT HUNTING, INGESTION RESULTS & DASHBOARDS
+    # =========================================================================
+    story.append(Paragraph("7. Threat Hunting, Ingestion Metrics & Analytical Results", h1_style))
+    story.append(Paragraph("Over the testing period, the Wazuh SIEM platform ingested and correlated high volumes of telemetry across all endpoints:", body_style))
 
-    story.append(Paragraph("• <b>Agent Connectivity (Port 1514/1515):</b> Ensured Ubuntu UFW firewall explicitly permitted TCP traffic for ports 1514 and 1515. Resolved NAT gateway routing issues using consistent VirtualBox DHCP leases.", bullet_style))
-    story.append(Paragraph("• <b>Sysmon Event Channel Ingestion:</b> Verified Windows Agent subscription to `Microsoft-Windows-Sysmon/Operational` using `eventchannel` log format in `ossec.conf`.", bullet_style))
-    story.append(Paragraph("• <b>Sysmon for Linux Kernel Dependencies:</b> Ensured Linux hosts satisfied minimum eBPF kernel requirements (>= 5.4) and verified BPF virtual filesystem mounting via `mount | grep bpf`.", bullet_style))
-    story.append(Paragraph("• <b>Service Resiliency & Health Checks:</b> Established standardized PowerShell and bash recovery scripts (`NET START WazuhSvc`, `systemctl restart wazuh-manager`) to ensure rapid service recovery.", bullet_style))
+    metrics_table = [
+        [Paragraph("Telemetry Stream", table_header), Paragraph("Source Node", table_header), Paragraph("Total Events Ingested", table_header), Paragraph("Key Ingested Types", table_header), Paragraph("Alert Severity Levels", table_header)],
+        [Paragraph("<b>Sysmon for Linux (eBPF)</b>", table_cell_bold), Paragraph("Kali Linux (004)", table_cell), Paragraph("<b>10,135+ Events</b>", table_cell_bold), Paragraph("Process Terminate (5), Process Create (1)", table_cell), Paragraph("Level 3 to Level 10", table_cell)],
+        [Paragraph("<b>Windows Sysmon & Events</b>", table_cell_bold), Paragraph("Windows 11 (003)", table_cell), Paragraph("<b>1,427+ Events</b>", table_cell_bold), Paragraph("Process Create (1), Network (3), Event 4625", table_cell), Paragraph("Level 3 to Level 12", table_cell)],
+        [Paragraph("<b>Linux PAM & Auth Logs</b>", table_cell_bold), Paragraph("Ubuntu / Kali", table_cell), Paragraph("<b>1,044+ Events</b>", table_cell_bold), Paragraph("Rule 5502 (PAM sudo session), sshd logs", table_cell), Paragraph("Level 3 to Level 8", table_cell)],
+        [Paragraph("<b>Total Lab Telemetry</b>", table_cell_bold), Paragraph("All Multi-Nodes", table_cell), Paragraph("<b>12,600+ Events</b>", table_cell_bold), Paragraph("Cross-platform unified log correlation", table_cell), Paragraph("Unified SIEM Ingestion", table_cell)]
+    ]
+    t_met = Table(metrics_table, colWidths=[110, 85, 95, 124, 90])
+    t_met.setStyle(TableStyle([
+        ('BACKGROUND', (0,0), (-1,0), dark_blue),
+        ('ROWBACKGROUNDS', (0,1), (-1,-1), [bg_light, colors.white]),
+        ('GRID', (0,0), (-1,-1), 0.5, border_color),
+        ('TOPPADDING', (0,0), (-1,-1), 2.5),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 2.5),
+    ]))
+    story.append(t_met)
+    story.append(Spacer(1, 8))
 
-    story.append(Spacer(1, 10))
+    story.extend(create_image_box("screenshots/24-sysmon-events-dashboard.png", "Wazuh Discover Ingestion of Over 1,400+ Windows Sysmon Process Events", 500, 200, caption_style))
 
-    # ==========================================
-    # CHAPTER 9: CONCLUSION & FUTURE WORK
-    # ==========================================
-    story.append(Paragraph("9. Conclusion & Future Roadmap", h1_style))
-    story.append(Paragraph("This project successfully demonstrated the design, deployment, and practical operation of a comprehensive Wazuh-based SOC Home Lab. By unifying multi-platform endpoint telemetry (Windows Sysmon and Linux eBPF) into a centralized SIEM, the lab provides end-to-end visibility into host-level process creation, network activity, credential attacks, and unauthorized system modifications.", body_style))
+    story.extend(create_image_box("screenshots/24c-sysmon-linux-events-dashboard.png", "Wazuh Discover Ingestion of 10,135+ Linux Sysmon Events via eBPF Kernel Tracepoints", 500, 200, caption_style))
 
-    story.append(Paragraph("Future SOC Enhancements Roadmap", h2_style))
-    story.append(Paragraph("• <b>Network Intrusion Detection System (NIDS):</b> Integrate Suricata to capture full network packet payload inspection and signature-based exploit detection.", bullet_style))
-    story.append(Paragraph("• <b>Threat Intelligence & Enrichment:</b> Connect VirusTotal, AbuseIPDB, and AlienVault OTX APIs into Wazuh integration pipelines for automated IoC scoring.", bullet_style))
-    story.append(Paragraph("• <b>Security Orchestration, Automation, and Response (SOAR):</b> Deploy Shuffle SOAR to automate active response actions (e.g. automated host isolation upon high-severity alert triggers).", bullet_style))
-    story.append(Paragraph("• <b>Incident Management:</b> Integrate TheHive and MISP for structured incident ticketing and threat intelligence sharing.", bullet_style))
+    story.append(PageBreak())
+
+    # =========================================================================
+    # 9. CHAPTER 8: SECURITY ALERT DETAILS & FORENSIC EVIDENCE
+    # =========================================================================
+    story.append(Paragraph("8. Security Alert Details & Forensic Investigation", h1_style))
+    story.append(Paragraph("When attack events trigger threshold conditions, Wazuh generates detailed alert records containing full metadata for forensic analysis:", body_style))
+
+    story.extend(create_image_box("screenshots/19d-dashboard-failed-logon.png", "Wazuh Alert Detail View: Windows Logon Failure (Rule 18152 / Event ID 4625)", 500, 200, caption_style))
+
+    story.extend(create_image_box("screenshots/22-agent-threat-hunting-events.png", "Real-Time Threat Hunting Events Table Showing Rule IDs, Levels, and CIS Benchmarks", 500, 200, caption_style))
+
+    story.append(PageBreak())
+
+    # =========================================================================
+    # 10. CHAPTER 9: OPERATIONAL TROUBLESHOOTING & HARDENING
+    # =========================================================================
+    story.append(Paragraph("9. Operational Troubleshooting & Hardening", h1_style))
+    story.append(Paragraph("Throughout the engineering lifecycle of this SOC lab, several operational challenges were diagnosed and resolved:", body_style))
+
+    story.append(Paragraph("• <b>Firewall & Agent Connectivity:</b> Resolved agent connection timeouts by explicitly permitting TCP ports 1514 (log stream) and 1515 (enrollment) in Ubuntu UFW. Tested connectivity using `Test-NetConnection -Port 1514` from Windows.", bullet_style))
+    story.append(Paragraph("• <b>Sysmon Event Channel Subscriptions:</b> Resolved missing Sysmon telemetry on Windows by adding the `<location>Microsoft-Windows-Sysmon/Operational</location>` channel with `<log_format>eventchannel</log_format>` inside `ossec.conf`.", bullet_style))
+    story.append(Paragraph("• <b>Linux eBPF Kernel Compatibility:</b> Resolved Sysmon for Linux compilation warnings by confirming host Linux kernel version was >= 5.4 with BPF filesystem mounted at `/sys/fs/bpf`.", bullet_style))
+    story.append(Paragraph("• <b>Agent Service Daemon Recovery:</b> Created rapid recovery workflows (`NET START WazuhSvc` on Windows and `systemctl restart wazuh-agent` on Linux) to recover from system sleep/hibernation disconnections.", bullet_style))
+
+    story.append(Spacer(1, 8))
+
+    # =========================================================================
+    # 11. CHAPTER 10: CONCLUSION & FUTURE ROADMAP
+    # =========================================================================
+    story.append(Paragraph("10. Conclusion & Future Roadmap", h1_style))
+    story.append(Paragraph("This project successfully demonstrated the end-to-end design, implementation, offensive simulation, and defensive monitoring of an enterprise-caliber Security Operations Center (SOC) home laboratory. By uniting Wazuh SIEM with Microsoft Sysmon and eBPF technology, the lab delivers actionable visibility across multi-stage cyber threats.", body_style))
+
+    story.append(Paragraph("Future Enhancements Roadmap", h2_style))
+    story.append(Paragraph("• <b>Network Intrusion Detection (NIDS):</b> Integrate Suricata for deep packet inspection and network-level exploit detection.", bullet_style))
+    story.append(Paragraph("• <b>Threat Intelligence & Enrichment:</b> Connect VirusTotal, AbuseIPDB, and AlienVault OTX APIs into Wazuh for automated IoC scoring.", bullet_style))
+    story.append(Paragraph("• <b>SOAR Automation:</b> Deploy Shuffle SOAR to automate active response actions (such as automated endpoint network isolation upon critical alert triggers).", bullet_style))
+    story.append(Paragraph("• <b>Incident Management:</b> Integrate TheHive and MISP for structured security incident ticketing and collaborative threat intel sharing.", bullet_style))
 
     story.append(Spacer(1, 15))
+    story.append(HRFlowable(width="100%", thickness=1, color=border_color, spaceBefore=8, spaceAfter=12))
 
-    # Sign-off block
-    story.append(HRFlowable(width="100%", thickness=1, color=border_color, spaceBefore=10, spaceAfter=15))
-    story.append(Paragraph("<b>Report Authorization & Acknowledgement:</b><br/>"
-                           "This report certifies the successful execution, empirical testing, and academic fulfillment of the SOC Home Lab capstone project.<br/>"
-                           "<b>Author:</b> Natto Muni Chakma &nbsp;|&nbsp; <b>Institution:</b> Andhra University College of Engineering &nbsp;|&nbsp; <b>Status:</b> Approved & Completed", callout_style))
+    signoff = [
+        [Paragraph("<b>Project Status:</b> COMPLETED & VERIFIED", body_style), Paragraph("<b>Lead Author:</b> Natto Muni Chakma", body_style)],
+        [Paragraph("<b>Degree Program:</b> B.Tech Computer Science & Eng.", body_style), Paragraph("<b>Institution:</b> Andhra University College of Eng.", body_style)],
+        [Paragraph("<b>Project Demonstration:</b> https://youtu.be/duEibRGYMHo", body_style), Paragraph("<b>GitHub Repository:</b> github.com/NATTOMR", body_style)]
+    ]
+    t_sign = Table(signoff, colWidths=[252, 252])
+    t_sign.setStyle(TableStyle([
+        ('BACKGROUND', (0,0), (-1,-1), colors.HexColor("#F8FAFC")),
+        ('BOX', (0,0), (-1,-1), 1, colors.HexColor("#CBD5E1")),
+        ('INNERGRID', (0,0), (-1,-1), 0.5, border_color),
+        ('TOPPADDING', (0,0), (-1,-1), 4),
+        ('BOTTOMPADDING', (0,0), (-1,-1), 4),
+        ('LEFTPADDING', (0,0), (-1,-1), 8),
+        ('RIGHTPADDING', (0,0), (-1,-1), 8),
+    ]))
+    story.append(t_sign)
 
     doc.build(story, canvasmaker=NumberedCanvas)
-    print(f"Report generated successfully at: {filename}")
+    print(f"Professional Report successfully generated: {filename}")
 
 if __name__ == "__main__":
     build_pdf()
