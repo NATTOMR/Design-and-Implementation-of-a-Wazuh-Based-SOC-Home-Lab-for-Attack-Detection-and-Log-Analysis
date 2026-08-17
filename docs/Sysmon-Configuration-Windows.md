@@ -1,4 +1,4 @@
-# Sysmon Configuration
+# Sysmon Configuration for Windows
 
 This document describes how Microsoft Sysmon was installed and configured on the Windows 11 endpoint to provide detailed telemetry for the Wazuh SIEM platform.
 

@@ -131,8 +131,9 @@ The objective is to detect malicious activities, collect security events, analyz
 | docs/Ubuntu-Installation.md | Ubuntu Server 24.04 installation |
 | docs/Wazuh-Installation.md | Complete Wazuh installation |
 | docs/Windows11-Agent.md | Windows Agent installation |
+| docs/Sysmon-Configuration-Windows.md | Sysmon deployment on Windows 11 |
+| docs/Sysmon-Configuration-Linux.md | Sysmon for Linux deployment |
 | docs/Kali-Attack-Simulation.md | Attack simulations |
-| docs/Sysmon-Configuration.md | Sysmon deployment |
 | docs/Detection-Rules.md | Detection rules |
 | docs/Troubleshooting.md | Common issues |
 

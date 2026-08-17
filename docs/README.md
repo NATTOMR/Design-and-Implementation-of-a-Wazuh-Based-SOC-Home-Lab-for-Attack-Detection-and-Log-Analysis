@@ -14,7 +14,8 @@ This directory contains all technical documentation, installation guides, archit
 | [Ubuntu-Installation.md](Ubuntu-Installation.md) | Installation and setup of Ubuntu Server 24.04 LTS. |
 | [Wazuh-Installation.md](Wazuh-Installation.md) | Step-by-step installation of the Wazuh SIEM platform. |
 | [Windows11-Agent.md](Windows11-Agent.md) | Installation and configuration of the Wazuh Agent on Windows 11. |
-| [Sysmon-Configuration.md](Sysmon-Configuration.md) | Deployment and configuration of Microsoft Sysmon. |
+| [Sysmon-Configuration-Windows.md](Sysmon-Configuration-Windows.md) | Deployment and configuration of Microsoft Sysmon on Windows 11. |
+| [Sysmon-Configuration-Linux.md](Sysmon-Configuration-Linux.md) | Deployment and configuration of Microsoft Sysmon for Linux (`sysmonforlinux`). |
 | [Kali-Attack-Simulation.md](Kali-Attack-Simulation.md) | Offensive security activities performed from Kali Linux. |
 | [Detection-Rules.md](Detection-Rules.md) | Explanation of Wazuh detection rules and alert generation. |
 | [Troubleshooting.md](Troubleshooting.md) | Common deployment issues and solutions. |
@@ -44,7 +45,7 @@ Install Windows Agent
 
 ↓
 
-Configure Sysmon
+Configure Sysmon (Windows & Linux)
 
 ↓
 
@@ -76,7 +77,8 @@ Project Complete
 │   ├── Ubuntu-Installation.md
 │   ├── Wazuh-Installation.md
 │   ├── Windows11-Agent.md
-│   ├── Sysmon-Configuration.md
+│   ├── Sysmon-Configuration-Windows.md
+│   ├── Sysmon-Configuration-Linux.md
 │   ├── Kali-Attack-Simulation.md
 │   ├── Detection-Rules.md
 │   └── Troubleshooting.md
@@ -101,7 +103,7 @@ If you are reproducing this lab, follow the documents in this order:
 2. Ubuntu Installation
 3. Wazuh Installation
 4. Windows 11 Agent
-5. Sysmon Configuration
+5. Sysmon Configuration (Windows & Linux)
 6. Kali Attack Simulation
 7. Detection Rules
 8. Troubleshooting

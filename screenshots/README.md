@@ -413,11 +413,12 @@
 | **README.md**                 | 13, 19, 39, 47, 48, 49 |
 | **Architecture.md**           | 2, 3, 48               |
 | **Wazuh-Installation.md**     | 4–13                   |
-| **Windows11-Agent.md**        | 14–19                  |
-| **Sysmon-Configuration.md**   | 20–24                  |
-| **Kali-Attack-Simulation.md** | 25–39                  |
-| **Detection-Rules.md**        | 34–39, 49              |
-| **Troubleshooting.md**        | 45–46                  |
+| **Windows11-Agent.md**              | 14–19                  |
+| **Sysmon-Configuration-Windows.md** | 20–24b                 |
+| **Sysmon-Configuration-Linux.md**   | Linux eBPF telemetry   |
+| **Kali-Attack-Simulation.md**       | 25–39                  |
+| **Detection-Rules.md**              | 34–39, 49              |
+| **Troubleshooting.md**              | 45–46                  |
 
 
 ```
