@@ -264,25 +264,25 @@ The architecture can be extended with:
 # Screenshots
 
 ### 1. VirtualBox Virtual Machines
-![VirtualBox Home](../screenshots/02-virtualbox-home.png)
+![VirtualBox Home](../../screenshots/02-virtualbox-home.png)
 *Oracle VirtualBox managing the three core VMs: Ubuntu Server (Wazuh Manager), Windows 11 Endpoint, and Kali Linux.*
 
 ---
 
 ### 2. NAT Network Configuration
-![NAT Network Settings](../screenshots/03-nat-network-settings.png)
+![NAT Network Settings](../../screenshots/03-nat-network-settings.png)
 *Isolated `NatNetwork` virtual subnet providing private interconnectivity and DHCP routing.*
 
 ---
 
 ### 3. Wazuh SIEM Dashboard Overview
-![Wazuh Dashboard Home](../screenshots/13-wazuh-dashboard-home.png)
+![Wazuh Dashboard Home](../../screenshots/13-wazuh-dashboard-home.png)
 *Centralized Wazuh Dashboard home interface presenting aggregate security alerts and system events.*
 
 ---
 
 ### 4. Active Registered Agents
-![Active Agents](../screenshots/19-active-agents.png)
+![Active Agents](../../screenshots/19-active-agents.png)
 *Wazuh Manager dashboard displaying active multi-platform agents (Windows 11 and Linux).*
 
 ---

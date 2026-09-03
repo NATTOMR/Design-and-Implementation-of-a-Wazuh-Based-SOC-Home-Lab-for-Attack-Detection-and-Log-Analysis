@@ -385,25 +385,25 @@ T1059
 # Screenshots
 
 ### 1. Windows Failed Logon Detection (Rule 18152)
-![Windows Failed Logon Alert](../screenshots/19d-dashboard-failed-logon.png)
+![Windows Failed Logon Alert](../../screenshots/19d-dashboard-failed-logon.png)
 *Wazuh Security Alert for Windows authentication failure matching Event ID 4625.*
 
 ---
 
 ### 2. Linux PAM Authentication Rule Match (Rule 5502)
-![Linux PAM Rule Alert](../screenshots/21a-kali-auth-pam-events.png)
+![Linux PAM Rule Alert](../../screenshots/21a-kali-auth-pam-events.png)
 *Wazuh Alert triggered on Linux authentication log `/var/log/auth.log` for root session events.*
 
 ---
 
 ### 3. Threat Hunting Event Table with Rule Breakdown
-![Threat Hunting Rule Details](../screenshots/22-agent-threat-hunting-events.png)
+![Threat Hunting Rule Details](../../screenshots/22-agent-threat-hunting-events.png)
 *Real-time rule matches displaying Rule IDs, descriptions, severity levels, and CIS compliance mappings.*
 
 ---
 
 ### 4. Process Creation & Telemetry Ingestion
-![Sysmon Rule Ingestion](../screenshots/24d-windows-sysmon-threat-hunting.png)
+![Sysmon Rule Ingestion](../../screenshots/24d-windows-sysmon-threat-hunting.png)
 *Sysmon endpoint event ingestion correlated with process metadata.*
 
 ---
