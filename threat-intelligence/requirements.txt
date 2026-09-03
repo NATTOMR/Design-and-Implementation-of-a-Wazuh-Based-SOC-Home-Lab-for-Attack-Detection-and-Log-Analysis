@@ -1,0 +1,4 @@
+pymisp
+OTXv2
+python-dotenv
+requests

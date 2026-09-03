@@ -34,3 +34,6 @@ wazuh-install-files.tar
 # Secrets
 passwords.txt
 .env
+# Threat Intelligence
+.env
+

@@ -1,16 +1,21 @@
-# 🛡️ Design and Implementation of a Wazuh-Based SOC Home Lab for Attack Detection and Log Analysis
+# Wazuh SOC & Threat Hunting Lab
 
 ![License](https://img.shields.io/badge/License-MIT-green)
 ![Platform](https://img.shields.io/badge/Platform-VirtualBox-blue)
 ![OS](https://img.shields.io/badge/OS-Ubuntu%2024.04%20%7C%20Windows%2011-orange)
 ![Wazuh](https://img.shields.io/badge/Wazuh-4.x-0052CC)
-![Status](https://img.shields.io/badge/Project-Completed-success)
 
 ---
 
 ## 📖 Project Overview
 
-This project demonstrates the design and implementation of a Security Operations Center (SOC) Home Lab using the **Wazuh SIEM platform**. The lab simulates real-world cyberattacks and security monitoring in a controlled virtual environment.
+A three-part Wazuh-based Security Operations Center lab for threat detection, threat intelligence integration, threat hunting, and SOC monitoring using Windows, Linux, Sysmon, MITRE ATT&CK, and external threat intelligence sources.
+
+### Three Implementation Layers:
+
+1. **Part 1 — Threat Hunting Lab** (✅ Implemented / In Progress)
+2. **Part 2 — Threat Intelligence Platform** (🔵 Planned / Partially implemented)
+3. **Part 3 — SOC Operations Dashboard** (🔵 Planned / Partially implemented)
 
 The environment consists of:
 
@@ -19,8 +24,6 @@ The environment consists of:
 - 🐉 Kali Linux Attacker Machine
 
 The objective is to detect malicious activities, collect security events, analyze logs, and generate alerts through the Wazuh Dashboard.
-
-
 
 ---
 
@@ -107,16 +110,23 @@ The objective is to detect malicious activities, collect security events, analyz
 
 ```
 .
+├── .github/
 ├── README.md
 ├── LICENSE
 ├── .gitignore
-├── docs/
 ├── configs/
 ├── detection/
+├── docs/
+│   ├── part-1-threat-hunting/
+│   ├── part-2-threat-intelligence/
+│   └── part-3-soc-dashboard/
 ├── kali/
 ├── ubuntu/
 ├── windows11/
 ├── wazuh/
+├── threat-intelligence/
+├── dashboard/
+├── scripts/
 ├── screenshots/
 └── reports/
 ```
@@ -127,14 +137,14 @@ The objective is to detect malicious activities, collect security events, analyz
 
 | Document | Description |
 |:---|:---|
-| [docs/Architecture.md](docs/Architecture.md) | Lab architecture and virtual network topology |
+| [docs/part-1-threat-hunting/README.md](docs/part-1-threat-hunting/README.md) | Part 1 Overview |
+| [docs/part-2-threat-intelligence/README.md](docs/part-2-threat-intelligence/README.md) | Part 2 Overview |
+| [docs/part-3-soc-dashboard/README.md](docs/part-3-soc-dashboard/README.md) | Part 3 Overview |
 | [docs/Ubuntu-Installation.md](docs/Ubuntu-Installation.md) | Ubuntu Server 24.04 LTS deployment |
 | [docs/Wazuh-Installation.md](docs/Wazuh-Installation.md) | Complete Wazuh SIEM platform installation |
 | [docs/Windows11-Agent.md](docs/Windows11-Agent.md) | Windows 11 Wazuh Agent deployment |
 | [docs/Sysmon-Configuration-Windows.md](docs/Sysmon-Configuration-Windows.md) | Microsoft Sysmon deployment on Windows 11 |
 | [docs/Sysmon-Configuration-Linux.md](docs/Sysmon-Configuration-Linux.md) | Microsoft Sysmon for Linux (`sysmonforlinux`) eBPF telemetry |
-| [docs/Kali-Attack-Simulation.md](docs/Kali-Attack-Simulation.md) | Offensive security attack simulations |
-| [docs/Detection-Rules.md](docs/Detection-Rules.md) | Built-in and custom detection rules |
 | [docs/Troubleshooting.md](docs/Troubleshooting.md) | SOC lab deployment troubleshooting |
 | [docs/WAZUH_COMMAND_REFERENCE.md](docs/WAZUH_COMMAND_REFERENCE.md) | Complete Wazuh command cheatsheet |
 
